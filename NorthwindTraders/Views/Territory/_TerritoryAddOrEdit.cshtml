@@ -1,0 +1,48 @@
+﻿@model NorthwindTraders.Models.Territory
+@{
+    var regions = ViewBag.Regions as List<NorthwindTraders.Models.Region>;
+}
+
+<input id="swal-territory-id" class="swal2-input" value="@Model.TerritoryID" disabled>
+<input id="swal-territory-description" class="swal2-input" value="@Model.TerritoryDescription">
+<select id="swal-region-id" class="swal2-select">
+    @if (regions != null && regions.Count > 0)
+    {
+        @foreach (var r in regions)
+        {
+            <option value="@r.RegionID" @(r.RegionID == Model.RegionID ? "selected" : "")>
+                @r.RegionDescription
+            </option>
+        }
+    }
+    else
+    {
+        <option value="">Loading regions…</option>
+    }
+</select>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function getRegionsF() {
+        $.ajax({
+            url: '/Territory/GetRegions',
+            type: 'GET',
+            success: function (data) {
+                let select = $("#swal-region-id");
+                select.empty();
+                data.forEach(function (region) {
+                    select.append(
+                        `<option value="${region.RegionID}">${region.RegionDescription}</option>`
+                    );
+                });
+            },
+            error: function () {
+                console.error("Error loading regions.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        getRegionsF();
+    });
+</script>

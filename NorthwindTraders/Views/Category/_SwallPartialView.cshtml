@@ -1,0 +1,117 @@
+﻿<script>
+    // Function to refresh category table
+    function refreshCategoryTable() {
+        $.get('/Category/CategoryTable_', function (html) {
+            $('tbody').html(html);
+        });
+    }
+
+    // Add Category (AJAX)
+    function addCategory() {
+
+        Swal.fire({
+            title: 'Add New Category',
+            html: `
+                <input id="swal-category-name" class="swal2-input" placeholder="Category Name">
+                <textarea id="swal-category-description" class="swal2-textarea" placeholder="Description"></textarea>
+            `,
+            focusConfirm: false,
+            preConfirm: () => {
+                return {
+                    CategoryName: $('#swal-category-name').val(),
+                    Description: $('#swal-category-description').val()
+                };
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Cancel'
+        }).then(result => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Category/CreateAjax',
+                    type: 'POST',
+                    data: result.value,
+                    success: function (response) {
+                        if (response.success === false) {
+                            Swal.fire('Error!', response.message, 'error');
+                        }
+                        else {
+                            Swal.fire('Added!', '', 'success');
+                            $('tbody').html(response); // Update table
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire('Unexpected Error!', error, 'error');
+                    }
+                });
+
+            }
+        });
+    }
+
+    // Edit Category (AJAX)
+    function editCategory(id, name, description) {
+        Swal.fire({
+            title: 'Edit Category',
+            html: `
+                <input id="swal-category-name" class="swal2-input" value="${name}">
+                <textarea id="swal-category-description" class="swal2-textarea">${description}</textarea>
+            `,
+            focusConfirm: false,
+            preConfirm: () => {
+                return {
+                    CategoryID: id,
+                    CategoryName: $('#swal-category-name').val(),
+                    Description: $('#swal-category-description').val()
+                };
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            cancelButtonText: 'Cancel'
+        }).then(result => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Category/EditAjax',
+                    type: 'POST',
+                    data: result.value,
+                    success: function (html) {
+                        Swal.fire('Updated!', '', 'success');
+                        $('tbody').html(html); // Update table
+                    },
+                    error: function () {
+                        Swal.fire('Error updating', '', 'error');
+                    }
+                });
+            }
+        });
+    }
+
+    // Delete Category (AJAX)
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are You Sure?',
+            text: "This category will be permanently deleted!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, Delete!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Category/DeleteAjax',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (html) {
+                        Swal.fire('Deleted!', '', 'success');
+                        $('tbody').html(html); // Update table
+                    },
+                    error: function () {
+                        Swal.fire('Error deleting', '', 'error');
+                    }
+                });
+            }
+        });
+    }
+</script>

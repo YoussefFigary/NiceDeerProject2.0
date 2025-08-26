@@ -1,0 +1,223 @@
+﻿
+@model IEnumerable<NorthwindTraders.Models.Customer>
+@{
+    ViewBag.Title = "Customers";
+}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @*bootstrap icons*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<main>
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="display-4 mb-0 me-3" style="line-height: 1;">Customers</h1>
+        <button type="button" class="btn btn-success btn-lg" onclick="AddOrEditCustomer()">Add Customer</button>
+    </div>
+
+
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Company Name</th>
+                <th>Contact Name</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CustomerID</td>
+                    <td>@item.CompanyName</td>
+                    <td>@item.ContactName</td>
+                    <td>@item.Phone</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-dark" onclick="customerDetails('@item.CustomerID')"> <i class="bi bi-eye-fill"></i></button>
+                            <button type="button" class="btn btn-primary" onclick="AddOrEditCustomer('@item.CustomerID')"><i class="bi bi-pencil-fill"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="DeleteCustomer('@item.CustomerID')"><i class="bi bi-trash3-fill"></i></button>
+                        </div>
+                   </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <div class="modal fade" id="customerDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Customer Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="customerDetailsModalBody">
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="modal fade" id="customerEditModal" tabindex="-1" aria-labelledby="customerEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customerEditModalLabel"></h5> <!-- title will be set dynamically -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body" id="customerEditModalBody">
+                    <!-- Partial view will load here -->
+                </div>
+
+                
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<script>
+    function customerDetails(id) {
+        $.ajax({
+            url: `/Customers/Details?id=${id}`, // Calls CustomersController.Details
+            type: 'GET',
+            dataType: 'html',
+            success: function (partialViewHtml) {
+                $("#customerDetailsModalBody").html(partialViewHtml);
+                $("#customerDetailsModal").modal('show');
+            },
+            error: function (xhr, status, error) {
+                Swal.fire("Error", "Could not load customer details", "error");
+            }
+        });
+    }
+   function AddOrEditCustomer(id) {
+        $.ajax({
+            url: `/Customers/AddOrEditPopup?id=${id}`,
+            type: 'GET',
+            dataType: 'html',
+            success: function (partialViewHtml) {
+                $("#customerEditModalBody").html(partialViewHtml);
+                // set title depending on add or edit
+                if (id === "" || id === null) {
+                    $("#customerEditModalLabel").text("Add Customer");
+                } else {
+                    $("#customerEditModalLabel").text("Edit Customer");
+                }
+
+                $("#customerEditModal").modal('show');
+            },
+            error: function () {
+                Swal.fire("Error", "Could not load form", "error");
+            }
+        });
+    }
+    
+    function saveCustomer() {
+        var formData = $("#adddoredit-customer-form").serialize();
+        $.ajax({
+            url: '/Customers/SaveEdit',  // POST to save changes
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire("Success", "Customer updated successfully!", "success")
+                        .then(() => location.reload()); 
+                } else {
+                    Swal.showValidationMessage("Error updating customer");
+                }
+            },
+            error: function () {
+                Swal.showValidationMessage("Error while saving customer");
+            }
+        });
+    }
+    function DeleteCustomer(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This will permanently delete the customer.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Customers/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            Swal.fire("Deleted!", result.message, "success")
+                                .then(() => location.reload());
+                        } else {
+                            Swal.fire("Blocked", result.message, "error");
+                        }
+                    },
+                    error: function () {
+                        Swal.fire("Error", "An error occurred while deleting.", "error");
+                    }
+                });
+            }
+        });
+    }
+    function validateAndSave() {
+        var form = document.getElementById('adddoredit-customer-form');
+
+        // check Bootstrap validation
+        if (form.checkValidity()) {
+            saveCustomer(); // ✅ only call if valid
+        } else {
+            form.classList.add('was-validated'); // show errors
+        }
+    }
+
+   /* function AddOrEditCustomer(id) {
+        $.ajax({
+            url: `/Customers/AddOrEditPopup?id=${id}`,  
+            type: 'GET',
+            dataType: 'html',
+            success: function (partialViewHtml) {
+                $("#customerEditModalBody").html(partialViewHtml);
+                $("#customerEditModal").modal('show');
+            },
+            error: function () {
+                Swal.fire("Error", "Could not load edit form", "error");
+            }
+        });
+    }*?
+    /*Swal.fire({
+    title: 'Edit Customer',
+    html: partialViewHtml,   // Load the Razor partial into Swal
+    width: '800px',
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText: 'Save',
+    cancelButtonText: 'Cancel',
+    preConfirm: () => {
+        // Collect the form values from the popup
+        var formData = $("#edit-customer-form").serialize();
+
+        return $.ajax({
+            url: '/Customers/Edit',  //change name // POST to save changes
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire("Success", "Customer updated successfully!", "success")
+                        .then(() => location.reload()); // reload table
+                } else {
+                    Swal.showValidationMessage("Error updating customer");
+                }
+            },
+            error: function () {
+                Swal.showValidationMessage("Error while saving customer");
+            }
+        });
+    }
+});*/
+
+</script>

@@ -1,0 +1,259 @@
+﻿@model NorthwindTraders.Models.Customer
+@{
+    var contactTitles = ViewBag.ContactTitles as List<string>;
+    var cities = ViewBag.Cities as List<string>;
+    var countries = ViewBag.Countries as List<string>;
+}
+
+<form id="adddoredit-customer-form" class="row g-3 needs-validation" novalidate>
+    @Html.HiddenFor(m => m.CustomerID)
+
+    <div class="col-md-6">
+        <label class="form-label">Company Name</label>
+        <input name="CompanyName" value="@Model.CompanyName" class="form-control" placeholder="Company Name" required />
+        <div class="invalid-feedback">Company name is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Contact Name</label>
+        <input name="ContactName" value="@Model.ContactName" class="form-control" placeholder="Contact Name" required />
+        <div class="invalid-feedback">Contact name is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Contact Title</label>
+        <select name="ContactTitle" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var title in contactTitles ?? new List<string>())
+            {
+                <option value="@title" @(title == Model.ContactTitle ? "selected" : "")>@title</option>
+            }
+        </select>
+        <div class="invalid-feedback">Contact title is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Phone</label>
+        <input name="Phone" value="@Model.Phone" class="form-control" placeholder="Phone" required />
+        <div class="invalid-feedback">Phone number is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Address</label>
+        <input name="Address" value="@Model.Address" class="form-control" placeholder="Address" required />
+        <div class="invalid-feedback">Address is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">City</label>
+        <select name="City" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var c in cities ?? new List<string>())
+            {
+                <option value="@c" @(c == Model.City ? "selected" : "")>@c</option>
+            }
+        </select>
+        <div class="invalid-feedback">City is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Country</label>
+        <select name="Country" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var c in countries ?? new List<string>())
+            {
+                <option value="@c" @(c == Model.Country ? "selected" : "")>@c</option>
+            }
+        </select>
+        <div class="invalid-feedback">Country is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Region</label>
+        <input name="Region" value="@Model.Region" class="form-control" placeholder="Region" />
+        <div class="invalid-feedback">Region is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Postal Code</label>
+        <input name="PostalCode" value="@Model.PostalCode" class="form-control" placeholder="Postal Code" />
+        <div class="invalid-feedback">Postal code is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Fax</label>
+        <input name="Fax" value="@Model.Fax" class="form-control" placeholder="Fax" />
+        <div class="invalid-feedback">Fax is required.</div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" type="button" onclick="validateAndSave()">Save</button>
+    </div>
+</form>
+
+@*@model NorthwindTraders.Models.Customer
+    @{
+        var contactTitles = ViewBag.ContactTitles as List<string>;
+        var cities = ViewBag.Cities as List<string>;
+        var countries = ViewBag.Countries as List<string>;
+    }
+
+    <form id="adddoredit-customer-form" class="row g-3">
+        @Html.HiddenFor(m => m.CustomerID)
+
+        <div class="col-md-6">
+            <label class="form-label">Company Name</label>
+            <input name="CompanyName" value="@Model.CompanyName" class="form-control" placeholder="Company Name" required />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Contact Name</label>
+            <input name="ContactName" value="@Model.ContactName" class="form-control" placeholder="Contact Name" required />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Contact Title</label>
+            <select name="ContactTitle" class="form-select" required>
+                <option selected disabled value="">Choose...</option>
+                @foreach (var title in contactTitles ?? new List<string>())
+                {
+                    <option value="@title" @(title == Model.ContactTitle ? "selected" : "")>@title</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Phone</label>
+            <input name="Phone" value="@Model.Phone" class="form-control" placeholder="Phone" required/>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Address</label>
+            <input name="Address" value="@Model.Address" class="form-control" placeholder="Address" required />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">City</label>
+            <select name="City" class="form-select" required>
+                <option selected disabled value="">Choose...</option>
+                @foreach (var c in cities ?? new List<string>())
+                {
+                    <option value="@c" @(c == Model.City ? "selected" : "")>@c</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Country</label>
+            <select name="Country" class="form-select" required>
+                <option selected disabled value="">Choose...</option>
+                @foreach (var c in countries ?? new List<string>())
+                {
+                    <option value="@c" @(c == Model.Country ? "selected" : "")>@c</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Region</label>
+            <input name="Region" value="@Model.Region" class="form-control" placeholder="Region" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Postal Code</label>
+            <input name="PostalCode" value="@Model.PostalCode" class="form-control" placeholder="Postal Code" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Fax</label>
+            <input name="Fax" value="@Model.Fax" class="form-control" placeholder="Fax" />
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" type="submit" onclick="validateAndSave()">Save</button>
+        </div>
+    </form>*@
+
+
+@*<form class="row g-3">
+        <div class="col-md-4">
+            <label for="validationDefault01" class="form-label">First name</label>
+            <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
+        </div>
+        <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="validationDefault02" value="Otto" required>
+        </div>
+        <div class="col-md-4">
+            <label for="validationDefaultUsername" class="form-label">Username</label>
+            <div class="input-group">
+                <span class="input-group-text" id="inputGroupPrepend2"></span>
+                <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="validationDefault03" class="form-label">City</label>
+            <input type="text" class="form-control" id="validationDefault03" required>
+        </div>
+        <div class="col-md-3">
+            <label for="validationDefault04" class="form-label">State</label>
+            <select class="form-select" id="validationDefault04" required>
+                <option selected disabled value="">Choose...</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="validationDefault05" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="validationDefault05" required>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                <label class="form-check-label" for="invalidCheck2">
+                    Agree to terms and conditions
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+    </form>*@
+
+
+@*@-<form id="adddoredit-customer-form">
+       @Html.HiddenFor(m => m.CustomerID)
+        <p><b>ID:</b> @Model.CustomerID</p>
+        <input name="CompanyName" value="@Model.CompanyName" placeholder="Company Name" />
+        <input name="ContactName" value="@Model.ContactName" placeholder="Contact Name" />-->
+    <!-- Contact Title dropdown -->
+    <!--<select name="ContactTitle">
+        @foreach (var title in contactTitles ?? new List<string>())
+        {
+            <option value="@title" @(title == Model.ContactTitle ? "selected" : "")>@title</option>
+        }
+    </select>
+
+    <input name="Phone" value="@Model.Phone" placeholder="Phone" />
+    <input name="Address" value="@Model.Address" placeholder="Address" />-->
+    <!-- City dropdown -->
+    <!--<select name="City">
+        @foreach (var c in cities ?? new List<string>())
+        {
+            <option value="@c" @(c == Model.City ? "selected" : "")>@c</option>
+        }
+    </select>-->
+    <!-- Country dropdown -->
+    <!--<select name="Country">
+            @foreach (var c in countries ?? new List<string>())
+            {
+                <option value="@c" @(c == Model.Country ? "selected" : "")>@c</option>
+            }
+        </select>
+
+        <input name="Region" value="@Model.Region" placeholder="Region" />
+        <input name="PostalCode" value="@Model.PostalCode" placeholder="Postal Code" />
+        <input name="Fax" value="@Model.Fax" placeholder="Fax" />
+    </form>*@
