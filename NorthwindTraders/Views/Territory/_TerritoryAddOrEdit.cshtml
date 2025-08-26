@@ -4,12 +4,11 @@
 }
 
 <form id="adddoredit-Territory-form" class="row g-3 needs-validation" novalidate>
+
     <div class="col-md-6">
         <label for="validationCustom01" class="form-label">First name</label>
         <input name="TerritoryDescription" placeholder="Territory description" type="text" class="form-control" id="territory-description" required>
-        <div class="valid-feedback">
-            Looks good!
-        </div>
+        <div class="invalid-feedback">Territory Description is equired</div>
     </div>
 
     <div class="col-md-6">
@@ -30,9 +29,7 @@
             }
 
         </select>
-        <div class="invalid-feedback">
-            Please select a valid state.
-        </div>
+        <div class="invalid-feedback">Please select a valid state.</div>
     </div>
 
     <div class="col-12">

@@ -19,6 +19,7 @@ namespace NorthwindTraders.Controllers
 
         public ActionResult AddOREditPopup(int id)
         {
+            ViewBag.Regions = db.Regions.ToList();
             if (id == 0)
                 return PartialView("_TerritoryAddOrEdit", new Territory()); // Empty model for Add
             else

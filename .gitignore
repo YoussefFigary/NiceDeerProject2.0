@@ -22,3 +22,4 @@ NorthwindTraders/.vs/NorthwindTraders/FileContentIndex/b697e2d4-61dd-41f7-aa8f-2
 NorthwindTraders/obj/Debug/NorthwindTraders.csproj.FileListAbsolute.txt
 NorthwindTraders/obj/Debug/NorthwindTraders.csproj.FileListAbsolute.txt
 *.vsidx
+*.bin
