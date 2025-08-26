@@ -1,4 +1,9 @@
+.vs/
 *.dll
 *.db-wal
 *.vsidx
 *.config
+*.suo
+*.user
+*.cache
+NorthwindTraders/.vs/NorthwindTraders/v17/.suo
