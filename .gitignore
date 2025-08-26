@@ -4,3 +4,6 @@
 *.cache
 *.vsidx
 NorthwindTraders/Web.config
+NorthwindTraders/.vs/NorthwindTraders/config/applicationhost.config
+*.pdb
+*.dll
