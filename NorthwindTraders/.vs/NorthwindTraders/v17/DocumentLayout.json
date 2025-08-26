@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|c:\\users\\lenovo\\documents\\github\\nicedeerproject2.0\\northwindtraders\\models\\htmlpage1.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:models\\htmlpage1.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
@@ -99,7 +103,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "SupplierController.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\SupplierController.cs",
               "RelativeDocumentMoniker": "Controllers\\SupplierController.cs",
@@ -113,6 +117,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "HtmlPage1.html",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\HtmlPage1.html",
+              "RelativeDocumentMoniker": "Models\\HtmlPage1.html",
+              "ToolTip": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\HtmlPage1.html",
+              "RelativeToolTip": "Models\\HtmlPage1.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-08-26T11:02:33.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Web.config",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Web.config",
               "RelativeDocumentMoniker": "Web.config",
@@ -125,7 +142,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": ".NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\obj\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
               "RelativeDocumentMoniker": "obj\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
@@ -137,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Territory.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Territory\\Territory.cshtml",
               "RelativeDocumentMoniker": "Views\\Territory\\Territory.cshtml",
@@ -149,7 +166,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -162,7 +179,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TerritoryController.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\TerritoryController.cs",
               "RelativeDocumentMoniker": "Controllers\\TerritoryController.cs",
@@ -175,7 +192,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "_TerritoryAddOrEdit.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Territory\\_TerritoryAddOrEdit.cshtml",
               "RelativeDocumentMoniker": "Views\\Territory\\_TerritoryAddOrEdit.cshtml",
@@ -187,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "CategoryController.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\CategoryController.cs",
               "RelativeDocumentMoniker": "Controllers\\CategoryController.cs",
@@ -199,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Supplier.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Supplier\\Supplier.cshtml",
               "RelativeDocumentMoniker": "Views\\Supplier\\Supplier.cshtml",
@@ -211,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "EmployeeInfo.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\DTOs\\EmployeeInfo.cs",
               "RelativeDocumentMoniker": "Models\\DTOs\\EmployeeInfo.cs",
@@ -223,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Category\\Index.cshtml",
@@ -235,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "_DetailsPopup.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Supplier\\_DetailsPopup.cshtml",
               "RelativeDocumentMoniker": "Views\\Supplier\\_DetailsPopup.cshtml",
@@ -247,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -259,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\Category\\Create.cshtml",
@@ -271,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "_SwallPartialView.cshtml",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\_SwallPartialView.cshtml",
               "RelativeDocumentMoniker": "Views\\Category\\_SwallPartialView.cshtml",
@@ -283,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": ".gitignore",
               "DocumentMoniker": "D:\\NiceDeer\\NiceDeerProject\\NorthwindTraders\\.gitignore",
               "ToolTip": "D:\\NiceDeer\\NiceDeerProject\\NorthwindTraders\\.gitignore",
@@ -293,7 +310,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Model1.edmx [Diagram1]",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\Model1.edmx",
               "RelativeDocumentMoniker": "Models\\Model1.edmx",
@@ -303,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Territory.cs",
               "DocumentMoniker": "C:\\Users\\Lenovo\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\Territory.cs",
               "RelativeDocumentMoniker": "Models\\Territory.cs",
