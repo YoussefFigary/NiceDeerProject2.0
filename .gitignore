@@ -1,4 +1,4 @@
-*.ddl
+*.dll
 *.db-wal
 *.vsidx
 *.config
