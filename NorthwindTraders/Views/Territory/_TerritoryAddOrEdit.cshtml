@@ -3,46 +3,39 @@
     var regions = ViewBag.Regions as List<NorthwindTraders.Models.Region>;
 }
 
-<input id="swal-territory-id" class="swal2-input" value="@Model.TerritoryID" disabled>
-<input id="swal-territory-description" class="swal2-input" value="@Model.TerritoryDescription">
-<select id="swal-region-id" class="swal2-select">
-    @if (regions != null && regions.Count > 0)
-    {
-        @foreach (var r in regions)
-        {
-            <option value="@r.RegionID" @(r.RegionID == Model.RegionID ? "selected" : "")>
-                @r.RegionDescription
-            </option>
-        }
-    }
-    else
-    {
-        <option value="">Loading regions…</option>
-    }
-</select>
+<form id="adddoredit-Territory-form" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-6">
+        <label for="validationCustom01" class="form-label">First name</label>
+        <input name="TerritoryDescription" placeholder="Territory description" type="text" class="form-control" id="territory-description" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function getRegionsF() {
-        $.ajax({
-            url: '/Territory/GetRegions',
-            type: 'GET',
-            success: function (data) {
-                let select = $("#swal-region-id");
-                select.empty();
-                data.forEach(function (region) {
-                    select.append(
-                        `<option value="${region.RegionID}">${region.RegionDescription}</option>`
-                    );
-                });
-            },
-            error: function () {
-                console.error("Error loading regions.");
+    <div class="col-md-6">
+        <label for="region-id" class="form-label">Region</label>
+        <select name="RegionID" class="form-select" id="region-id" required>
+            @if (regions != null && regions.Count > 0)
+            {
+                foreach (var r in regions)
+                {
+                    <option value="@r.RegionID" @(r.RegionID == Model.RegionID ? "selected" : "")>
+                        @r.RegionDescription
+                    </option>
+                }
             }
-        });
-    }
+            else
+            {
+                <option value="">Loading regions…</option>
+            }
 
-    $(document).ready(function () {
-        getRegionsF();
-    });
-</script>
+        </select>
+        <div class="invalid-feedback">
+            Please select a valid state.
+        </div>
+    </div>
+
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Add Territory</button>
+    </div>
+</form>
