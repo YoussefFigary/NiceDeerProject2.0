@@ -1,0 +1,323 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|c:\\users\\youssef\\onedrive\\documents\\github\\nicedeerproject2.0\\northwindtraders\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\controllers\\territorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:controllers\\territorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\obj\\debug\\.netframework,version=v4.7.2.assemblyattributes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:obj\\debug\\.netframework,version=v4.7.2.assemblyattributes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\views\\territory\\territory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:views\\territory\\territory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\views\\supplier\\supplier.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:views\\supplier\\supplier.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\views\\territory\\_territoryaddoredit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:views\\territory\\_territoryaddoredit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\models\\dtos\\employeeinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:models\\dtos\\employeeinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\controllers\\suppliercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:controllers\\suppliercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\models\\model1.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:models\\model1.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\models\\territory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:models\\territory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\NiceDeer\\NiceDeerProject\\NorthwindTraders\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:Views\\Category\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\views\\supplier\\_detailspopup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:views\\supplier\\_detailspopup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:Views\\Category\\Create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\_SwallPartialView.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{24AD5F32-75B6-4352-89F1-D743EF7C655E}|NorthwindTraders.csproj|solutionrelative:Views\\Category\\_SwallPartialView.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 18,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 462,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SupplierController.cs",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\SupplierController.cs",
+              "RelativeDocumentMoniker": "Controllers\\SupplierController.cs",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\SupplierController.cs",
+              "RelativeToolTip": "Controllers\\SupplierController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAMwBYAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T07:47:16.802Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Web.config",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Web.config",
+              "RelativeDocumentMoniker": "Web.config",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Web.config",
+              "RelativeToolTip": "Web.config",
+              "ViewState": "AgIAACkAAAAAAAAAAAAAAD8AAADxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-08-26T09:43:18.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": ".NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\obj\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
+              "RelativeDocumentMoniker": "obj\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\obj\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
+              "RelativeToolTip": "obj\\Debug\\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T09:38:41.973Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Territory.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Territory\\Territory.cshtml",
+              "RelativeDocumentMoniker": "Views\\Territory\\Territory.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Territory\\Territory.cshtml",
+              "RelativeToolTip": "Views\\Territory\\Territory.cshtml",
+              "ViewState": "AgIAAEoAAAAAAAAAAADwvykAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-21T18:44:22.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACYAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-19T07:41:00.852Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TerritoryController.cs",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\TerritoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TerritoryController.cs",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\TerritoryController.cs",
+              "RelativeToolTip": "Controllers\\TerritoryController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAApwDIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-17T09:56:30.547Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_TerritoryAddOrEdit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Territory\\_TerritoryAddOrEdit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Territory\\_TerritoryAddOrEdit.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Territory\\_TerritoryAddOrEdit.cshtml",
+              "RelativeToolTip": "Views\\Territory\\_TerritoryAddOrEdit.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAACsAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-19T12:41:04.141Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "Controllers\\CategoryController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAhwBAAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T23:25:34.388Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Supplier.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Supplier\\Supplier.cshtml",
+              "RelativeDocumentMoniker": "Views\\Supplier\\Supplier.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Supplier\\Supplier.cshtml",
+              "RelativeToolTip": "Views\\Supplier\\Supplier.cshtml",
+              "ViewState": "AgIAAAQAAAAAAAAAAMBtwAAAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-19T07:39:00.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EmployeeInfo.cs",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\DTOs\\EmployeeInfo.cs",
+              "RelativeDocumentMoniker": "Models\\DTOs\\EmployeeInfo.cs",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\DTOs\\EmployeeInfo.cs",
+              "RelativeToolTip": "Models\\DTOs\\EmployeeInfo.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T07:47:30.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Category\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Index.cshtml",
+              "RelativeToolTip": "Views\\Category\\Index.cshtml",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAAC0AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-24T10:26:00.311Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_DetailsPopup.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Supplier\\_DetailsPopup.cshtml",
+              "RelativeDocumentMoniker": "Views\\Supplier\\_DetailsPopup.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Supplier\\_DetailsPopup.cshtml",
+              "RelativeToolTip": "Views\\Supplier\\_DetailsPopup.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T12:30:30.47Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-21T18:44:15.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Create.cshtml",
+              "RelativeDocumentMoniker": "Views\\Category\\Create.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\Create.cshtml",
+              "RelativeToolTip": "Views\\Category\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T06:50:39.966Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "_SwallPartialView.cshtml",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\_SwallPartialView.cshtml",
+              "RelativeDocumentMoniker": "Views\\Category\\_SwallPartialView.cshtml",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Views\\Category\\_SwallPartialView.cshtml",
+              "RelativeToolTip": "Views\\Category\\_SwallPartialView.cshtml",
+              "ViewState": "AgIAABYAAAAAAAAAAAAYwHQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-20T06:52:13.395Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": ".gitignore",
+              "DocumentMoniker": "D:\\NiceDeer\\NiceDeerProject\\NorthwindTraders\\.gitignore",
+              "ToolTip": "D:\\NiceDeer\\NiceDeerProject\\NorthwindTraders\\.gitignore",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-19T22:13:39.755Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Model1.edmx [Diagram1]",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\Model1.edmx",
+              "RelativeDocumentMoniker": "Models\\Model1.edmx",
+              "ToolTip": "D:\\NiceDeer\\NiceDeerProject\\NorthwindTraders\\Models\\Model1.edmx [Diagram1]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001116|",
+              "WhenOpened": "2025-08-19T07:30:22.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Territory.cs",
+              "DocumentMoniker": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\Territory.cs",
+              "RelativeDocumentMoniker": "Models\\Territory.cs",
+              "ToolTip": "C:\\Users\\Youssef\\OneDrive\\Documents\\GitHub\\NiceDeerProject2.0\\NorthwindTraders\\Models\\Territory.cs",
+              "RelativeToolTip": "Models\\Territory.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-17T10:40:14.287Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
