@@ -2,3 +2,8 @@
 *.dll
 *.db-wal
 *.vsidx
+*.config
+*.json
+NorthwindTraders/.vs/NorthwindTraders/v17/.suo
+NorthwindTraders/.vs/NorthwindTraders/v17/.suo
+*.json
