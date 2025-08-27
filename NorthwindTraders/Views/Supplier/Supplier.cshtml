@@ -36,7 +36,7 @@
                        <div class="btn-group">
                            <button type="button" class="btn btn-dark" onclick="customerDetails(@item.SupplierID)"> <i class="bi bi-eye-fill"></i></button>
                            <button type="button" class="btn btn-primary" onclick="DeleteSuplier(@item.SupplierID)"><i class="bi bi-pencil-fill"></i></button>
-                           <button type="button" class="btn btn-danger" onclick="DeleteCustomer(@item.SupplierID)"><i class="bi bi-trash3-fill"></i></button>
+                           <button type="button" class="btn btn-danger" onclick="DeleteSupplierpopup(@item.SupplierID)"><i class="bi bi-trash3-fill"></i></button>
                        </div>
                    </td>
                     
@@ -48,6 +48,56 @@
 
 </main>
 <script>
-    function
+    function DeleteSupplierpopup(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                DeleteSupplier(id);
+            }
+        });
+    }
+    function DeleteSupplier(id) {
+        $.ajax({
+            url: `/Supplier/Delete?id=${id}`,
+            type: 'POST',
+            contentType: 'application/json',
+            success: function (data, textStatus, jqXHR) {
+                // 200 OK
+                Swal.fire('Deleted!', 'The Supplier was deleted.', 'success');
+            },
+            error: function (jqXHR) {
+                // jqXHR.status will be 409 or 404
+                if (jqXHR.status === 409) {
+                    // Conflict — parse JSON and show linked records
+                    var data = JSON.parse(jqXHR.responseText);
+                    var list = data.linkedProducts
+                        .map(function (e) {
+                            return '<li>' + e.ProductID + "=>" + e.ProductName + '</li>';
+                        })
+                        .join('');
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Can Not Delete This Supplier is Linked to the Products below:",
+                        html: '<p>' + list + '</p>'
+                    });
+                }
+                else if (jqXHR.status === 404) {
+                    var data = JSON.parse(jqXHR.responseText);
+                    Swal.fire('Error', data.error, 'error');
+                }
+                else {
+                    Swal.fire('Error', 'Unexpected error occurred', 'error');
+                }
+            }
+        });
+    }
+
 
 </script>
