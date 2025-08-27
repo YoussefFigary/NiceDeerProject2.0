@@ -5,6 +5,7 @@
 }
 <head>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <main>
     <div class="d-flex align-items-center mb-3">
@@ -29,19 +30,55 @@
                     <td>@item.TerritoryID</td>
                     <td>@item.TerritoryDescription</td>
                     <td>@item.RegionID</td>
-                    <td><button type="button" class="btn btn-primary" onclick="addOreditTerritory('@item.TerritoryID')">Edit</button></td>
-                    <td><button type="button" class="btn btn-danger" onclick="DeleteTerritory('@item.TerritoryID')">Delete</button></td>
-
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" onclick="addOreditTerritory('@item.TerritoryID')"><i class="bi bi-pencil-fill"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="DeleteTerritorypopup('@item.TerritoryID')"><i class="bi bi-trash3-fill"></i></button>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </main>
+
+<div class="modal fade" id="TerritoryEditModal" tabindex="-1" aria-labelledby="TerritoryEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="TerritoryEditModalLabel"></h5> <!-- title will be set dynamically -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" id="TerritoryEditModalBody">
+                <!-- Partial view will load here -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
+    function DeleteTerritorypopup(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                DeleteTerritory(id);
+            }
+        });
+    }
     function DeleteTerritory(id) {
         $.ajax({
             url: `/Territory/Delete?id=${id}`,
-            type: 'POST', 
+            type: 'POST',
             contentType: 'application/json',
             success: function (data, textStatus, jqXHR) {
                 // 200 OK
@@ -70,54 +107,64 @@
                 }
             }
         });
+
     }
-    function addOreditTerritory(id) {
+    function validateAndSave() {
+       
+        var form = document.getElementById('adddoredit-Territory-form');
+
+        // check Bootstrap validation
+        if (form.checkValidity()) {
+            saveTerritory();
+        } else {
+            form.classList.add('was-validated'); // show errors
+        }
+    }
+    function saveTerritory() {
+        var formData = $("#adddoredit-Territory-form").serialize();
         $.ajax({
-            url: `/Territory/AddOREditPopup?id=${id}`, // This returns your partial view HTML
-            type: 'GET',
-            success: function (partialViewHtml) {
-                Swal.fire({
-                    title: (id == 0) ? 'Add Territory' : 'Edit Territory',
-                    html: partialViewHtml, // Render the partial view inside Swal
-                    showCancelButton: true,
-                    focusConfirm: false,
-                    preConfirm: () => {
-                        // Collect data from the partial view fields
-                        let territoryId = $('#TerritoryID').val();
-                        let description = $('#TerritoryDescription').val();
-                        let regionId = $('#RegionID').val();
-
-                        return {
-                            TerritoryID: territoryId,
-                            TerritoryDescription: description,
-                            RegionID: regionId
-                        };
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Send data to API
-                        $.ajax({
-                            url: '/Territory/AddOREdit',
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify(result.value),
-                            success: function (res) {
-                                Swal.fire('Success!', 'Data saved successfully', 'success');
-                                // Optionally reload table/grid
-                            },
-                            error: function () {
-                                Swal.fire('Error', 'Something went wrong', 'error');
-                            }
-                        });
-                    }
-                });
-
+            url: '/Territory/AddOREdit',
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire("Success", "Territory Saved!", "success")
+                        .then(() => location.reload());
+                } else {
+                    Swal.showValidationMessage("Error updating Territory");
+                }
             },
             error: function () {
-                Swal.fire('Error', 'Could not load the form', 'error');
+                Swal.showValidationMessage("Error while saving Territory");
             }
         });
     }
+
+    function addOreditTerritory(id) {
+
+        $.ajax({
+            url: `/Territory/AddOREditPopup?id=${id}`,
+            type: 'GET',
+            success: function (partialViewHtml) {
+                $("#TerritoryEditModalBody").html(partialViewHtml);
+
+                if (id === "" || id === null) {
+                    $("#TerritoryEditModalLabel").text("Add Territory");
+                } else {
+                    $("#TerritoryEditModalLabel").text("Edit Territory");
+                }
+
+                $("#TerritoryEditModal").modal('show');
+            },
+            error: function () {
+                Swal.fire("Error", "Could not load form", "error");
+            }
+        });
+    }
+
+
+
+
 </script>
 
 
