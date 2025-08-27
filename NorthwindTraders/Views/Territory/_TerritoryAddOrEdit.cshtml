@@ -4,10 +4,11 @@
 }
 
 <form id="adddoredit-Territory-form" class="row g-3 needs-validation" novalidate>
+    @Html.HiddenFor(m => m.TerritoryID)
 
     <div class="col-md-6">
-        <label for="validationCustom01" class="form-label">First name</label>
-        <input name="TerritoryDescription" placeholder="Territory description" type="text" class="form-control" id="territory-description" required>
+        <label for="territory-description" class="form-label">Territory Description</label>
+        <input name="TerritoryDescription" placeholder="Territory description" value="@Model.TerritoryDescription" type="text" class="form-control" id="territory-description" required>
         <div class="invalid-feedback">Territory Description is equired</div>
     </div>
 
@@ -16,6 +17,7 @@
         <select name="RegionID" class="form-select" id="region-id" required>
             @if (regions != null && regions.Count > 0)
             {
+                <option value="">-- Select a Region --</option>
                 foreach (var r in regions)
                 {
                     <option value="@r.RegionID" @(r.RegionID == Model.RegionID ? "selected" : "")>
@@ -33,6 +35,6 @@
     </div>
 
     <div class="col-12">
-        <button class="btn btn-primary" type="submit">Add Territory</button>
+        <button class="btn btn-primary" type="button" onclick="validateAndSave()">@(Model.TerritoryID ==0 ? "Add Territory" : "Edit Territory")</button>
     </div>
 </form>
