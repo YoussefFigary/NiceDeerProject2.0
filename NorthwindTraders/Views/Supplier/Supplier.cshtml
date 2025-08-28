@@ -8,7 +8,7 @@
 <main>
     <div class="d-flex align-items-center mb-3">
         <h1 class="display-4 mb-0 me-3" style="line-height: 1;">Suppliers</h1>
-        <button type="button" class="btn btn-success btn-lg" onclick="addOreditSupplier(0)">Add Supplier</button>
+        <button type="button" class="btn btn-success btn-lg" onclick="AddOrEditSupplier(0)">Add Supplier</button>
     </div>
 
 
@@ -35,7 +35,7 @@
                    <td>
                        <div class="btn-group">
                            <button type="button" class="btn btn-dark" onclick="customerDetails(@item.SupplierID)"> <i class="bi bi-eye-fill"></i></button>
-                           <button type="button" class="btn btn-primary" onclick="DeleteSuplier(@item.SupplierID)"><i class="bi bi-pencil-fill"></i></button>
+                           <button type="button" class="btn btn-primary" onclick="AddOrEditSupplier(@item.SupplierID)"><i class="bi bi-pencil-fill"></i></button>
                            <button type="button" class="btn btn-danger" onclick="DeleteSupplierpopup(@item.SupplierID)"><i class="bi bi-trash3-fill"></i></button>
                        </div>
                    </td>
@@ -47,6 +47,24 @@
     </table>
 
 </main>
+<div class="modal fade" id="SupplierEditModal" tabindex="-1" aria-labelledby="SupplierEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="SupplierEditModalLabel"></h5> <!-- title will be set dynamically -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" id="SupplierEditModalBody">
+                <!-- Partial view will load here -->
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
 <script>
     function DeleteSupplierpopup(id) {
         Swal.fire({
@@ -75,7 +93,7 @@
             error: function (jqXHR) {
                 // jqXHR.status will be 409 or 404
                 if (jqXHR.status === 409) {
-                    // Conflict — parse JSON and show linked records
+                    
                     var data = JSON.parse(jqXHR.responseText);
                     var list = data.linkedProducts
                         .map(function (e) {
@@ -98,6 +116,66 @@
             }
         });
     }
+
+   
+    function validateAndSaveSupplier(){
+
+       var form = document.getElementById('adddoredit-Supplier-form');
+
+       // check Bootstrap validation
+       if (form.checkValidity()) {
+           saveSupplier(); // ✅ only call if valid
+       } 
+       else {
+           form.classList.add('was-validated'); // show errors
+       }
+
+    }
+
+    function saveSupplier() {
+        var formData = $("#adddoredit-Supplier-form").serialize();
+        $.ajax({
+            url: '/Supplier/SaveEdit',  // POST to save changes
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire("Success", "Supplier updated successfully!", "success")
+                        .then(() => location.reload()); 
+                } else {
+                    Swal.showValidationMessage("Error updating Supplier");
+                }
+            },
+            error: function () {
+                Swal.showValidationMessage("Error while saving Supplier");
+            }
+        });
+    }
+    function AddOrEditSupplier(id) {
+        debugger;
+     $.ajax({
+         url: `/Supplier/AddOrEditPopup?id=${id}`,
+         type: 'GET',
+         dataType: 'html',
+         success: function (partialViewHtml) {
+             $("#SupplierEditModalBody").html(partialViewHtml);
+             // set title depending on add or edit
+             if (id === "" || id === null) {
+                 $("#SupplierEditModalLabel").text("Add Supplier");
+             } else {
+                 $("#SupplierEditModalLabel").text("Edit Supplier");
+             }
+
+             $("#SupplierEditModal").modal('show');
+         },
+         error: function () {
+             Swal.fire("Error", "Could not load form", "error");
+         }
+     });
+ }
+     
+    
+
 
 
 </script>

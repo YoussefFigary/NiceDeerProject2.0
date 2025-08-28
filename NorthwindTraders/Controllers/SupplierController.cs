@@ -1,6 +1,7 @@
 ﻿using NorthwindTraders.Models;
 using NorthwindTraders.Models.DTOs;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,10 +13,7 @@ namespace NorthwindTraders.Controllers
     {
         private NorthwindEntities db = new NorthwindEntities();
         // GET: Supplier
-        public ActionResult Index()
-        {
-            return View(); 
-        }
+        
         public ActionResult Supplier()
         {
             var Suppliers = db.Suppliers.Where(t => t != null).OrderBy(x => x.SupplierID).ToList();
@@ -60,6 +58,50 @@ namespace NorthwindTraders.Controllers
                               .ToList();
 
             return Products;
+        }
+
+        public ActionResult AddOrEditPopup(int id)
+        {
+            ViewBag.ContactTitles = db.Suppliers.Select(c => c.ContactTitle).Distinct().ToList();
+            ViewBag.Cities = db.Suppliers.Select(c => c.City).Distinct().ToList();
+            ViewBag.Countries = db.Suppliers.Select(c => c.Country).Distinct().ToList();
+            if (id == 0)
+                return PartialView("_SupplierAddOrEdit", new Supplier()); // Empty model for Add
+            else
+            {
+                var Suppliers = db.Suppliers.Find(id);
+                return PartialView("_SupplierAddOrEdit", Suppliers); // Filled model for Edit
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveEdit(Supplier supplier)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, errors = new[] { "Invalid model state" } });
+            }
+
+            // Try to find existing Supplier
+            
+
+            if (supplier.SupplierID == 0)
+            {
+                //ADD
+               
+
+                db.Suppliers.Add(supplier);
+            }
+            else
+            {
+                // EDIT
+              
+                db.Entry(supplier).State = EntityState.Modified;
+
+            }
+
+            db.SaveChanges();
+            return Json(new { success = true });
         }
     }
 }

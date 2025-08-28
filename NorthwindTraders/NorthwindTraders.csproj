@@ -144,6 +144,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DTOs\EmployeeInfo.cs" />
+    <Compile Include="Models\DTOs\ProductInfo.cs" />
     <Compile Include="Models\Employee.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -684,6 +685,7 @@
     <Content Include="Views\Category\_SwallPartialView.cshtml" />
     <Content Include="Views\Supplier\Supplier.cshtml" />
     <Content Include="Views\Supplier\_DetailsPopup.cshtml" />
+    <Content Include="Views\Supplier\_SupplierAddOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
