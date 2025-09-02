@@ -132,6 +132,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\TerritoryController.cs" />
     <Compile Include="Global.asax.cs">
@@ -689,6 +690,10 @@
     <Content Include="Views\Category\_SwallPartialView.cshtml" />
     <Content Include="Views\Supplier\Supplier.cshtml" />
     <Content Include="Views\Supplier\_DetailsPopup.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\_OrderDetails.cshtml" />
+    <Content Include="Views\Orders\_OrderAddOrEdit.cshtml" />
+    <Content Include="Views\Orders\_AddOrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

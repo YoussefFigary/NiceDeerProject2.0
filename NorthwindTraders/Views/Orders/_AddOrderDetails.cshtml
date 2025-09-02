@@ -1,0 +1,31 @@
+﻿@model NorthwindTraders.Models.Order_Detail
+@{ 
+    var productIDs = ViewBag.ProductID as List<int>;
+    var products = ViewBag.Products as List<NorthwindTraders.Models.Customer>;
+}
+<form id="add-orderDetails-form" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-4">
+        <label class="form-label">Product ID</label>
+        <select id="ProductID" name="ProductID" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var p in productIDs ?? new List<int>())
+            {
+                <option value="@p" @(p == Model.ProductID ? "selected" : "")>@p</option>
+            }
+        </select>
+        <div class="invalid-feedback">Product ID is required.</div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Quantity</label>
+        <input type="number" step="1" min="0" max="100" name="Quantity" value="@Model.Quantity" class="form-control" placeholder="Quantity" required />
+        <div class="invalid-feedback"> Quantity is required.</div>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Discount</label>
+        <input type="number" step="0.5" min="0" max="100" name="Discount" value="@Model.Discount" class="form-control" placeholder="Discount" required />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"  onclick="ReShow()">Cancel</button>
+        <button class="btn btn-primary" type="button" onclick="validateAndSaveDetail()">Save</button>
+    </div>
+</form>
