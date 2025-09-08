@@ -30,7 +30,7 @@ namespace NorthwindTraders.Controllers
         public ActionResult Details(int id)
         {
             var order = db.Orders.Find(id);
-            ViewBag.Order_Details= db.Order_Details.ToList();
+            ViewBag.Order_Details = db.Order_Details.ToList();
 
             return PartialView("_OrderDetails", order);
         }
@@ -57,14 +57,35 @@ namespace NorthwindTraders.Controllers
             ViewBag.Order_Details = db.Order_Details.ToList();
             return PartialView("_OrderAddOrEdit", order);
         }
-
-        public ActionResult AddOrderDetailPopup()
+        public ActionResult AddOrderDetailPopup(int orderId)
         {
-            Order_Detail orderDetail = new Order_Detail();
+            var orderDetail = new Order_Detail
+            {
+                OrderID = orderId  // pre-fill order ID
+            };
             ViewBag.Products = db.Products.ToList();
-            ViewBag.ProductID = db.Order_Details.Select(c => c.ProductID).Distinct().ToList();
+            ViewBag.ProductID = db.Products.Select(p => p.ProductID).Distinct().ToList();
             return PartialView("_AddOrderDetails", orderDetail);
         }
+        //public ActionResult AddOrderDetailPopup(int orderId)
+        //{
+        //    var orderDetail = new Order_Detail
+        //    {
+        //        OrderID = orderId  // pre-fill order ID
+        //    };
+        //    ViewBag.Products = db.Products.ToList();
+        //    ViewBag.ProductID = db.Products.Select(p => p.ProductID).Distinct().ToList();
+        //    return PartialView("_AddOrderDetails", orderDetail);
+        //}
+
+
+        //public ActionResult AddOrderDetailPopup()
+        //{
+        //    Order_Detail orderDetail = new Order_Detail();
+        //    ViewBag.Products = db.Products.ToList();
+        //    ViewBag.ProductID = db.Order_Details.Select(c => c.ProductID).Distinct().ToList();
+        //    return PartialView("_AddOrderDetails", orderDetail);
+        //}
 
         [HttpPost]
         public ActionResult SaveAddOrEdit(Order order)
@@ -72,9 +93,9 @@ namespace NorthwindTraders.Controllers
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, errors = new[] { "Invalid model state" } });
-            }            
+            }
 
-            if ( order.OrderID==0)
+            if (order.OrderID == 0)
             {
                 //ADD
                 db.Orders.Add(order);
@@ -85,14 +106,14 @@ namespace NorthwindTraders.Controllers
                 db.Entry(order).State = EntityState.Modified;
             }
             db.SaveChanges();
-            return Json(new { success = true });
+            return Json(new { success = true, @OrderId = order.OrderID });
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
             var order = db.Orders.Find(id);
-            if ( id==0 )
+            if (id == 0)
             {
                 return Json(new { success = false, message = "Order not found." });
             }
@@ -105,6 +126,50 @@ namespace NorthwindTraders.Controllers
             db.Orders.Remove(order);
             db.SaveChanges();
             return Json(new { success = true, message = "Order deleted successfully." });
+        }
+        [HttpPost]
+        public ActionResult DeleteDetail(int orderID, int productID)
+        {
+            var existing = db.Order_Details.Find(orderID, productID);
+            if (existing == null)
+            {
+                return Json(new { success = false, message = "Detail not found." });
+            }
+            db.Order_Details.Remove(existing);
+            db.SaveChanges();
+            return Json(new { success = true, message = "Detail deleted successfully." });
+        }
+
+        [HttpPost]
+        public ActionResult SaveDetail(Order_Detail detail)
+        {
+            
+            if (detail.OrderID <= 0 || detail.ProductID <= 0 || detail.Quantity <= 0)
+                return Json(new { success = false, message = "Invalid input." });
+
+            // Load UnitPrice from Products table
+            var unitPrice = db.Products.Where(p => p.ProductID == detail.ProductID).Select(p => p.UnitPrice).FirstOrDefault();
+
+            if (unitPrice == null)
+                return Json(new { success = false, message = "Product not found." });
+
+            // Check if this detail already exists 
+            var existing = db.Order_Details.Find(detail.OrderID, detail.ProductID);
+            if (existing == null)
+            {
+                detail.UnitPrice = unitPrice.Value; // set server-side
+                db.Order_Details.Add(detail);
+            }
+            else
+            {
+                existing.Quantity += detail.Quantity ;
+                existing.Discount = detail.Discount;
+                existing.UnitPrice = unitPrice.Value;
+                db.Entry(existing).State = EntityState.Modified;
+            }
+
+            db.SaveChanges();
+            return Json(new { success = true, orderId = detail.OrderID });
         }
 
 

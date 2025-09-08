@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 @model IEnumerable<NorthwindTraders.Models.Order>
 @{
     ViewBag.Title = "Orders";
@@ -37,10 +37,12 @@
                     <td>@item.ShipCity</td>
                     <td>
                         <div class="btn-group">
+                            <button type="button" class="btn btn-dark" onclick="AddOrderDetails('@item.OrderID')">Add Order Detail</button>
                             <button type="button" class="btn btn-dark" onclick="orderDetails('@item.OrderID')"> <i class="bi bi-eye-fill"></i></button>
                             <button type="button" class="btn btn-primary" onclick="AddOrEditOrder('@item.OrderID')"><i class="bi bi-pencil-fill"></i></button>
                             <button type="button" class="btn btn-danger" onclick="DeleteOrder('@item.OrderID')"><i class="bi bi-trash3-fill"></i></button>
                         </div>
+
                     </td>
                 </tr>
             }
@@ -83,7 +85,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="AddDetailModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="ReShow()"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body" id="AddDetailModalBody">
@@ -109,22 +111,16 @@
             }
         });
     }
-    
-    function AddOrderDetails() {
+
+    function AddOrderDetails(orderId) {
         $.ajax({
-            url: `/Orders/AddOrderDetailPopup`,
+            url: `/Orders/AddOrderDetailPopup?orderId=${orderId}`,
             type: 'GET',
             dataType: 'html',
             success: function (partialViewHtml) {
                 $("#AddDetailModalBody").html(partialViewHtml);
                 $("#AddDetailModalLabel").text("Add Detail");
-
-                $("#orderAddOrEditModal").one("hidden.bs.modal", function () {
-                    $("#AddDetailModal").modal("show");
-                });
-
-                $("#orderAddOrEditModal").modal("hide");
-
+                $("#AddDetailModal").modal("show");
             },
             error: function () {
                 Swal.fire("Error", "Could not load form", "error");
@@ -132,15 +128,44 @@
         });
     }
 
-    function ReShow() {
-        
-        $("#AddDetailModal").one("hidden.bs.modal", function () {
-            $("#orderAddOrEditModal").modal("show");
-        });
+    //function AddOrderDetails(orderId) {
+    //    $.ajax({
+    //        url: `/Orders/AddOrderDetailPopup?orderId=${orderId}`,
+    //        type: 'GET',
+    //        dataType: 'html',
+    //        success: function (partialViewHtml) {
+    //            $("#AddDetailModalBody").html(partialViewHtml);
+    //            $("#AddDetailModalLabel").text("Add Detail");
+    //            $("#AddDetailModal").modal("show");
+    //        },
+    //        error: function () {
+    //            Swal.fire("Error", "Could not load form", "error");
+    //        }
+    //    });
+    //}
 
-        $("#AddDetailModal").modal("hide");
-    }
 
+    //function AddOrderDetails() {
+    //    $.ajax({
+    //        url: `/Orders/AddOrderDetailPopup`,
+    //        type: 'GET',
+    //        dataType: 'html',
+    //        success: function (partialViewHtml) {
+    //            $("#AddDetailModalBody").html(partialViewHtml);
+    //            $("#AddDetailModalLabel").text("Add Detail");
+
+    //            $("#orderAddOrEditModal").one("hidden.bs.modal", function () {
+    //                $("#AddDetailModal").modal("show");
+    //            });
+
+    //            $("#orderAddOrEditModal").modal("hide");
+
+    //        },
+    //        error: function () {
+    //            Swal.fire("Error", "Could not load form", "error");
+    //        }
+    //    });
+    //}
 
     function AddOrEditOrder(id) {
         $.ajax({
@@ -163,8 +188,18 @@
             }
         });
     }
+    function validateAndSaveOrder() {
+        var form = document.getElementById('addoredit-order-form');
+        if (form.checkValidity()) {
+            saveOrder();
+        } else {
+            form.classList.add('was-validated');
+        }
+    }
+    var createdId;
     function saveOrder() {
         var formData = $("#addoredit-order-form").serialize();
+
         $.ajax({
             url: '/Orders/SaveAddOrEdit',  // POST to save changes
             type: 'POST',
@@ -172,7 +207,8 @@
             success: function (result) {
                 if (result.success) {
                     Swal.fire("Success", "Order updated successfully!", "success")
-                        .then(() => location.reload());
+                    .then(() => location.reload());
+                    createdId = result.OrderId;
                 } else {
                     Swal.showValidationMessage("Error updating customer");
                 }
@@ -182,6 +218,7 @@
             }
         });
     }
+    
     function DeleteOrder(id) {
         Swal.fire({
             title: "Are you sure?",
@@ -211,25 +248,104 @@
             }
         });
     }
-    function validateAndSaveOrder() {
-        var form = document.getElementById('addoredit-order-form');
-        if (form.checkValidity()) {
-            saveOrder();
-        } else {
-            form.classList.add('was-validated');
-        }
-    }
 
-    function validateAndSaveDetail() {
+   function validateAndSaveDetail() {
         var form = document.getElementById('add-orderDetails-form');
-        if (form.checkValidity()) {
-            ReShow();
+            if (form.checkValidity()) {
+                saveDetail();
         } else {
-            form.classList.add('was-validated');
+                form.classList.add('was-validated');
         }
+   }
+
+    function saveDetail() {
+        var formData = $("#add-orderDetails-form").serialize();
+
+        $.ajax({
+            url: '/Orders/SaveDetail',
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire("Success", "Order detail added successfully!", "success")
+                        .then(() => {
+                            $("#AddDetailModal").modal("hide"); // close modal
+                            location.reload(); // refresh orders page
+                        });
+                } else {
+                    Swal.fire("Error", result.message || "Could not save order detail", "error");
+                }
+            },
+            error: function () {
+                Swal.fire("Error", "Error while saving order detail", "error");
+            }
+        });
+    }
+    
+    function DeleteDetail(orderID,productID) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This will permanently delete this detail.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Orders/DeleteDetail',
+                    type: 'POST',
+                    data: { orderID: orderID, productID: productID },
+                    success: function (result) {
+                        if (result.success) {
+                            Swal.fire("Deleted!", result.message, "success")
+                                .then(() => location.reload());
+                        } else {
+                            Swal.fire("Blocked", result.message, "error");
+                        }
+                    },
+                    error: function () {
+                        Swal.fire("Error", "An error occurred while deleting.", "error");
+                    }
+                });
+            }
+        });
     }
 
+
+
+    //function validateAndSaveDetail() {
+    //    var form = document.getElementById('add-orderDetails-form');
+    //    if (form.checkValidity()) {
+    //        saveDetail();
+    //    } else {
+    //        form.classList.add('was-validated');
+    //    }
+    //}
+
+    //function saveDetail() {
+    //    var detailData = new Order_Detail();
+    //    detailData.ProductID = $("#ProductID").val();
+    //    detailData.UnitPrice =0;
+    //    detailData.Quantity = $("#qty").val();
+    //    detailData.Discount = $("#discount").val();
+    //    $.ajax({
+    //        url: '/Orders/SaveDetail',  // POST to save changes
+    //        type: 'POST',
+    //        data: detailData,
+    //        success: function (result) {
+    //            if (result.success) {
+    //                Swal.fire("Success", "Order Detail Added successfully!", "success")
+    //                .then(() => location.reload());
+    //            } else {
+    //                Swal.showValidationMessage("Error updating order detail");
+    //            }
+    //        },
+    //        error: function () {
+    //            Swal.showValidationMessage("Error while saving order detail");
+    //        }
+    //    });
+    //}
 
 
 </script>
-

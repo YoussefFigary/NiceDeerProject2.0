@@ -80,6 +80,7 @@
                                     <th>Quantity</th>
                                     <th>Discount</th>
                                     <th>Product</th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -92,6 +93,7 @@
                                         <td> @detail.Quantity</td>
                                         <td> @detail.Discount</td>
                                         <td> @detail.Product.ProductName</td>
+                                        <td><button type="button" class="btn btn-danger" onclick="DeleteDetail(@detail.OrderID,@detail.ProductID)"><i class="bi bi-trash3-fill"></i></button></td>
                                     </tr>
                                 }
                             </tbody>

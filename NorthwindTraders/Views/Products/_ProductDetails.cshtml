@@ -1,0 +1,51 @@
+﻿@model NorthwindTraders.Models.Product
+
+<body class="p-4">
+    <div class="container">
+        <table class="table table-bordered table-striped table-hover">
+            <tbody>
+                <tr>
+                    <th scope="row">Product ID:</th>
+                    <td>@Model.ProductID</td>
+                </tr>
+                <tr>
+                    <th scope="row">Product Name:</th>
+                    <td>@Model.ProductName</td>
+                </tr>
+                <tr>
+                    <th scope="row">Supplier ID:</th>
+                    <td>@Model.SupplierID</td>
+                </tr>
+                <tr>
+                    <th scope="row">Category ID:</th>
+                    <td>@Model.CategoryID</td>
+                </tr>
+                <tr>
+                    <th scope="row">Quantity Per Unit:</th>
+                    <td>@Model.QuantityPerUnit</td>
+                </tr>
+                <tr>
+                    <th scope="row">Unit Price:</th>
+                    <td>@(Model.UnitPrice.HasValue ? Model.UnitPrice.Value.ToString("C") : "-")</td>
+                </tr>
+                <tr>
+                    <th scope="row">Units In Stock:</th>
+                    <td>@Model.UnitsInStock</td>
+                </tr>
+                <tr>
+                    <th scope="row">Units On Order:</th>
+                    <td>@Model.UnitsOnOrder</td>
+                </tr>
+                <tr>
+                    <th scope="row">Reorder Level:</th>
+                    <td>@Model.ReorderLevel</td>
+                </tr>
+                <tr>
+                    <th scope="row">Discontinued:</th>
+                    <td>@(Model.Discontinued ? "Yes" : "No")</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
