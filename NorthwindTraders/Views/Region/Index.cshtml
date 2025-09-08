@@ -1,0 +1,54 @@
+﻿@model IEnumerable<NorthwindTraders.Models.Region>
+
+@{
+    ViewBag.Title = "Regions";
+}
+
+<h2>Regions</h2>
+
+<div class="mb-3">
+    <button class="btn btn-success" onclick="openCreateModal()">
+        <i class="bi bi-plus-circle"></i> Add Region
+    </button>
+</div>
+
+<div id="regionTableContainer">
+    @Html.Partial("_RegionTable", Model)
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="regionModal" tabindex="-1"
+     role="dialog" aria-labelledby="regionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="regionForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="regionModalLabel">Add Region</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @Html.Hidden("RegionID", "", new { id = "RegionID" })
+
+                    <div class="form-group">
+                        <label for="RegionDescription">Description</label>
+                        <input type="text" class="form-control" id="RegionDescription" name="RegionDescription" />
+                        <div class="invalid-feedback" id="RegionDescriptionError">
+                            Description must be at least 3 characters
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="saveRegionBtn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- include scripts partial -->
+@section scripts {
+    @Html.Partial("_RegionScripts")
+}

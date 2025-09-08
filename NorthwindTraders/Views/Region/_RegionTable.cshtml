@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+@model IEnumerable<NorthwindTraders.Models.Region>
+
+<table class="table table-striped table-hover no-border-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th style="width: 150px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var region in Model)
+        {
+            <tr id="row_@region.RegionID">
+                <td>@region.RegionID</td>
+                <td>@region.RegionDescription</td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary btn-sm"
+                                onclick="openEditModal(@region.RegionID, '@region.RegionDescription')"
+                                title="Edit">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteRegion(@region.RegionID)"
+                                title="Delete">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

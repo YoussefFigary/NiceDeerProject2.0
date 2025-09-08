@@ -1,0 +1,93 @@
+﻿<script>
+    //  Validation function
+    function validateForm() {
+        let input = $("#RegionDescription");
+        let errorSpan = $("#RegionDescriptionError");
+        let desc = input.val().trim();
+
+        if (desc.length < 3) {
+            input.addClass("is-invalid");
+            errorSpan.show().text("Description must be at least 3 characters");
+            return false;
+        } else if (desc.length > 100) {
+            input.addClass("is-invalid");
+            errorSpan.show().text("Description must be less than 100 characters");
+            return false;
+        } else {
+            input.removeClass("is-invalid");
+            errorSpan.hide().text("");
+            return true;
+        }
+    }
+
+    // Create
+    function openCreateModal() {
+        $("#regionModalLabel").text("Add Region");
+        $("#RegionID").val("");
+        $("#RegionDescription").val("").removeClass("is-invalid");
+        $("#RegionDescriptionError").hide().text("");
+
+        $("#regionForm").off("submit").on("submit", function (e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            $.post('@Url.Action("CreateAjax", "Region")', $(this).serialize())
+                .done(function (result) {
+                    $("#regionTableContainer").html(result);
+                    $("#regionModal").modal("hide");
+                })
+                .fail(function (xhr) {
+                    Swal.fire("Error", xhr.responseText, "error");
+                });
+        });
+
+        $("#regionModal").modal("show");
+    }
+
+    // ✅ Edit
+    function openEditModal(id, description) {
+        $("#regionModalLabel").text("Edit Region");
+        $("#RegionID").val(id);
+        $("#RegionDescription").val(description).removeClass("is-invalid");
+        $("#RegionDescriptionError").hide().text("");
+
+        $("#regionForm").off("submit").on("submit", function (e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            $.post('@Url.Action("EditAjax", "Region")', $(this).serialize())
+                .done(function (result) {
+                    $("#regionTableContainer").html(result);
+                    $("#regionModal").modal("hide");
+                })
+                .fail(function (xhr) {
+                    Swal.fire("Error", xhr.responseText, "error");
+                });
+        });
+
+        $("#regionModal").modal("show");
+    }
+
+    //  Delete (Swal only here)
+    function deleteRegion(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('@Url.Action("DeleteAjax", "Region")', { id: id })
+                    .done(function (result) {
+                        $("#regionTableContainer").html(result);
+                        Swal.fire("Deleted!", "Region has been deleted.", "success");
+                    })
+                    .fail(function (xhr) {
+                        Swal.fire("Error", xhr.responseText, "error");
+                    });
+            }
+        });
+    }
+</script>

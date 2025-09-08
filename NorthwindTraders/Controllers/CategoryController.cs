@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using NorthwindTraders.Models;
 
@@ -7,138 +6,81 @@ namespace NorthwindTraders.Controllers
 {
     public class CategoryController : Controller
     {
-        private NorthwindEntities _context;
+        private readonly NorthwindEntities _context;
 
         public CategoryController()
         {
             _context = new NorthwindEntities();
         }
 
-        // =============== Main Page =============== //
+        // Index
         public ActionResult Index()
         {
             var categories = _context.Categories.ToList();
             return View(categories);
         }
 
-        // Partial view of the category table
-        public PartialViewResult CategoryTable_()
-        {
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
-        }
-
-        // =============== AJAX Actions =============== //
-
-        // Create category with AJAX
         [HttpPost]
         public ActionResult CreateAjax(Category category)
         {
-            try
+            if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
-                if (ModelState.IsValid)
-                {
-                    _context.Categories.Add(category);
-                    _context.SaveChanges();
-                }
+                return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
-            catch (Exception e)
-            {
-                return Json(new { success = false, message = e.Message });
-            }
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
 
+            if (category.Description?.Length > 200)
+            {
+                return new HttpStatusCodeResult(400, "Description must be less than 200 characters.");
+            }
+
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+
+            var categories = _context.Categories.ToList();
+            return PartialView("_CategoryTable", categories);
         }
 
-        // Edit category with AJAX
+
         [HttpPost]
         public ActionResult EditAjax(Category category)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
-                var existing = _context.Categories.Find(category.CategoryID);
-                if (existing != null)
-                {
-                    existing.CategoryName = category.CategoryName;
-                    existing.Description = category.Description;
-                    _context.SaveChanges();
-                }
+                return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
+
+            _context.Entry(category).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
 
             var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
-        }
-
-        // Delete category with AJAX
-        [HttpPost]
-        public ActionResult DeleteAjax(int id)
-        {
-            var category = _context.Categories.Find(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-                _context.SaveChanges();
-            }
-
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
-        }
-
-        // =============== Normal Actions (Non-AJAX) =============== //
-
-        // Create page
-        public ActionResult Create()
-        {
-            return View();
+            return PartialView("_CategoryTable", categories);
         }
 
         [HttpPost]
-        public ActionResult Create(Category category)
+        public JsonResult DeleteAjax(int id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(category);
-        }
-
-        // Edit page
-        public ActionResult Edit(int id)
-        {
-            var category = _context.Categories.Find(id);
-            return View(category);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                var existing = _context.Categories.Find(category.CategoryID);
-                if (existing != null)
+                var category = _context.Categories.Find(id);
+                if (category == null)
                 {
-                    existing.CategoryName = category.CategoryName;
-                    existing.Description = category.Description;
-                    _context.SaveChanges();
+                    return Json(new { success = false, message = "Category not found." });
                 }
-                return RedirectToAction("Index");
-            }
-            return View(category);
-        }
 
-        // Normal delete
-        public ActionResult Delete(int id)
-        {
-            var category = _context.Categories.Find(id);
-            if (category != null)
-            {
+                if (category.Products != null && category.Products.Any())
+                {
+                    return Json(new { success = false, message = "Cannot delete category with related products." });
+                }
+
                 _context.Categories.Remove(category);
                 _context.SaveChanges();
+
+                return Json(new { success = true, id = id });
             }
-            return RedirectToAction("Index");
+            catch (System.Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }
