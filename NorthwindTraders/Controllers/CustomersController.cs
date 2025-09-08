@@ -110,7 +110,7 @@ namespace NorthwindTraders.Controllers
                 return Json(new
                 {
                     success = false,
-                    message = "Cannot delete this customer because it has related Orders or Customer Demographics."
+                    message = "Cannot delete this customer because it has related Orders."
                 });
             }
 
