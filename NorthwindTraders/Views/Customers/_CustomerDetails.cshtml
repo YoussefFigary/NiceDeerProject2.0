@@ -1,16 +1,60 @@
 ﻿@model NorthwindTraders.Models.Customer
 
-<div>
-    <p><b>ID:</b> @Model.CustomerID</p>
-    <p><b>Company:</b> @Model.CompanyName</p>
-    <p><b>Contact:</b> @Model.ContactName</p>
-    <p><b>Contact Title:</b> @Model.ContactTitle</p>
-    <p><b>Phone:</b> @Model.Phone</p>
-    <p><b>Address:</b> @Model.Address</p>
-    <p><b>City:</b> @Model.City</p>
-    <p><b>Region:</b> @Model.Region</p>
-    <p><b>Postal Code:</b> @Model.PostalCode</p>
-    <p><b>Country:</b> @Model.Country</p>
-    <p><b>Fax:</b> @Model.Fax</p>
-</div>
+<body class="p-4">
+
+    <div class="container">
+        <table class="table table-bordered table-striped table-hover ">
+            <tbody>
+                <tr>
+                    <th scope="row">ID:</th>
+                    <td>@Model.CustomerID</td>
+                </tr>
+                <tr>
+                    <th scope="row">Company:</th>
+                    <td>@Model.CompanyName</td>
+                </tr>
+                <tr>
+                    <th scope="row">Contact Name:</th>
+                    <td>@Model.ContactName</td>
+                </tr>
+                <tr>
+                    <th scope="row">Contact Title:</th>
+                    <td>@Model.ContactTitle</td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone:</th>
+                    <td>@Model.Phone</td>
+                </tr>
+                <tr>
+                    <th scope="row">Address:</th>
+                    <td>@Model.Address</td>
+                </tr>
+                <tr>
+                    <th scope="row">City:</th>
+                    <td>@Model.City</td>
+                </tr>
+                <tr>
+                    <th scope="row">Region:</th>
+                    <td>@Model.Region</td>
+                </tr>
+                <tr>
+                    <th scope="row">Postal Code:</th>
+                    <td>@Model.PostalCode</td>
+                </tr>
+                <tr>
+                    <th scope="row">Country:</th>
+                    <td>@Model.Country</td>
+                </tr>
+                <tr>
+                    <th scope="row">Fax:</th>
+                    <td>@Model.Fax</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+
+
 
