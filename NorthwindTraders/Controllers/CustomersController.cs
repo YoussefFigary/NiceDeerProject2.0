@@ -73,20 +73,21 @@ namespace NorthwindTraders.Controllers
             else
             {
                 // EDIT
-                if (existing.ContactName == null)
-                
-                existing.CompanyName = customer.CompanyName;
-                existing.ContactName = customer.ContactName;
-                existing.ContactTitle = customer.ContactTitle;
-                existing.Address = customer.Address;
-                existing.City = customer.City;
-                existing.Region = customer.Region;
-                existing.PostalCode = customer.PostalCode;
-                existing.Country = customer.Country;
-                existing.Phone = customer.Phone;
-                existing.Fax = customer.Fax;
-                
-                
+                //  if (existing.ContactName == null)
+                /* 
+                 existing.CompanyName = customer.CompanyName;
+                 existing.ContactName = customer.ContactName;
+                 existing.ContactTitle = customer.ContactTitle;
+                 existing.Address = customer.Address;
+                 existing.City = customer.City;
+                 existing.Region = customer.Region;
+                 existing.PostalCode = customer.PostalCode;
+                 existing.Country = customer.Country;
+                 existing.Phone = customer.Phone;
+                 existing.Fax = customer.Fax;
+                */
+                db.Entry(existing).CurrentValues.SetValues(customer);
+
             }
 
             db.SaveChanges();

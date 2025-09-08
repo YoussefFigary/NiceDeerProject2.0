@@ -1,0 +1,74 @@
+﻿@model NorthwindTraders.Models.Employee
+<div class="container">
+    <table class="table table-bordered table-striped table-hover ">
+        <tbody>
+            <tr>
+                <th scope="row">ID:</th>
+                <td>@Model.EmployeeID</td>
+            </tr>
+            <tr>
+                <th scope="row">Title Of Courtesy:</th>
+                <td>@Model.TitleOfCourtesy</td>
+            </tr>
+            <tr>
+                <th scope="row">First Name:</th>
+                <td>@Model.FirstName</td>
+            </tr>
+            <tr>
+                <th scope="row">Last Name:</th>
+                <td>@Model.LastName</td>
+            </tr>
+            <tr>
+                <th scope="row">Title:</th>
+                <td>@Model.Title</td>
+            </tr>
+            <tr>
+                <th scope="row">Hire Date:</th>
+                <td>@Model.HireDate</td>
+            </tr>
+            <tr>
+                <th scope="row">Birth Date:</th>
+                <td>@Model.BirthDate</td>
+            </tr>
+            <tr>
+                <th scope="row">Address:</th>
+                <td>@Model.Address</td>
+            </tr>
+            <tr>
+                <th scope="row">City:</th>
+                <td>@Model.City</td>
+            </tr>
+            <tr>
+                <th scope="row">Region:</th>
+                <td>@Model.Region</td>
+            </tr>
+            <tr>
+                <th scope="row">Postal Code:</th>
+                <td>@Model.PostalCode</td>
+            </tr>
+            <tr>
+                <th scope="row">Country:</th>
+                <td>@Model.Country</td>
+            </tr>
+            <tr>
+                <th scope="row">Extension:</th>
+                <td>@Model.Extension</td>
+            </tr>
+            <tr>
+                <th scope="row">Reporting Employee ID:</th>
+                <td>@Model.ReportsTo</td>
+            </tr>
+            <tr>
+                <th scope="row">Notes:</th>
+                <td>@Model.Notes</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+</div>
+
+
+
