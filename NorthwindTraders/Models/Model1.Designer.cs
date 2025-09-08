@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Youssef\OneDrive\Desktop\NiceDeer\NiceDeerProject\NorthwindTraders\Models\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\NorthwindTraders\Models\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -1,0 +1,133 @@
+﻿@model NorthwindTraders.Models.Employee
+@{
+    var Titles = ViewBag.Titles as List<string>;
+    var TitleOfCourtes = ViewBag.TitleOfCourtes as List<string>;
+    var cities = ViewBag.Cities as List<string>;
+    var countries = ViewBag.Countries as List<string>;
+}
+
+<form id="adddoredit-Employee-form" class="row g-3 needs-validation" novalidate>
+    @Html.HiddenFor(m => m.EmployeeID)
+
+
+    <div class="col-md-4">
+        <label class="form-label">Title Of Courtesy</label>
+        <select name="TitleOfCourtesy" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var t in TitleOfCourtes ?? new List<string>())
+            {
+                <option value="@t" @(t == Model.TitleOfCourtesy ? "selected" : "")>@t</option>
+            }
+        </select>
+        <div class="invalid-feedback">TitleOfCourtesy is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">First Name</label>
+        <input name="FirstName" value="@Model.FirstName" class="form-control" placeholder="First Name" required />
+        <div class="invalid-feedback">FirstName is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label"> Last Name</label>
+        <input name="LastName" value="@Model.LastName" class="form-control" placeholder="Last Name" required/>
+        <div class="invalid-feedback">Last Name is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Job title</label>
+        <select name="Title" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var t in Titles ?? new List<string>())
+            {
+                <option value="@t" @(t == Model.Title ? "selected" : "")>@t</option>
+            }
+        </select>
+        <div class="invalid-feedback">TitleOfCourtesy is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Hire Date </label>
+        <input type="datetime" name="HireDate" value="@Model.HireDate" class="form-control" placeholder="Hire Date" required />
+        <div class="invalid-feedback">Hire Date is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Home Phone</label>
+        <input name="HomePhone" value="@Model.HomePhone" class="form-control" placeholder="Home Phone" required />
+        <div class="invalid-feedback">Home Phone number is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Birth Date</label>
+        <input type="datetime" name="BirthDate" value="@Model.BirthDate" class="form-control" placeholder="Birth Date" required />
+        <div class="invalid-feedback">Birth Date is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Address</label>
+        <input name="Address" value="@Model.Address" class="form-control" placeholder="Address" required />
+        <div class="invalid-feedback">Address is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">City</label>
+        <select name="City" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var c in cities ?? new List<string>())
+            {
+                <option value="@c" @(c == Model.City ? "selected" : "")>@c</option>
+            }
+        </select>
+        <div class="invalid-feedback">City is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Country</label>
+        <select name="Country" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @foreach (var c in countries ?? new List<string>())
+            {
+                <option value="@c" @(c == Model.Country ? "selected" : "")>@c</option>
+            }
+        </select>
+        <div class="invalid-feedback">Country is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Region</label>
+        <input name="Region" value="@Model.Region" class="form-control" placeholder="Region" />
+        <div class="invalid-feedback">Region is required.</div>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Postal Code</label>
+        <input name="PostalCode" value="@Model.PostalCode" class="form-control" placeholder="Postal Code" />
+        <div class="invalid-feedback">Postal code is required.</div>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Extension</label>
+        <input name="Extension" value="@Model.Extension" class="form-control" placeholder="Extension" required />
+        <div class="invalid-feedback">Extension is required.</div>
+    </div>
+
+    <!--needs edits in the backend-->
+    <div class="col-md-6">
+        <label class="form-label">Reports to</label>
+        <input name="ReportsTo" value="@Model.ReportsTo" class="form-control" placeholder="reporting Employee ID" required />
+        <div class="invalid-feedback">a reporting Employee is required.</div>
+    </div>
+
+    <div class="col-md-9">
+        <label class="form-label">Notes</label>
+        <input name="Notes" value="@Model.Notes" class="form-control" placeholder="Notes" />
+        <div class="invalid-feedback">Notes is required.</div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" type="button" onclick="validateAndSaveemployee ()">@(Model.EmployeeID == 0 ? "Add Supplier" : "Edit Supplier" )</button>
+    </div>
+
+</form>
