@@ -8,7 +8,7 @@
     <h2>Categories</h2>
 
     <div class="mb-3">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#categoryModal">
+        <button class="btn btn-success" id="btnAddCategory">
             Add New Category
         </button>
     </div>
@@ -18,49 +18,109 @@
     </div>
 </div>
 
+
 <!-- Modal -->
 <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content rounded-3 shadow">
+        <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="categoryModalLabel">Add / Edit Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
-                <form id="categoryForm">
-                    <input type="hidden" id="CategoryID" name="CategoryID" value="" />
+                <form id="categoryForm" novalidate>
+                    <input type="hidden" id="CategoryID" name="CategoryID" />
 
-                    <div class="mb-3">
-                        <label for="CategoryName" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="CategoryName" name="CategoryName" required />
-                        <div class="invalid-feedback" id="CategoryNameError"></div>
+                    <div class="form-group">
+                        <label for="CategoryName">Category Name</label>
+                        <input type="text" id="CategoryName" name="CategoryName" class="form-control" />
+                        <span id="CategoryNameError" class="text-danger" style="display:none;"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="Description" class="form-label">Description</label>
-                        <textarea class="form-control" id="Description" name="Description" rows="3"></textarea>
-                        <div class="invalid-feedback" id="DescriptionError"></div>
+                    <div class="form-group mt-2">
+                        <label for="Description">Description</label>
+                        <textarea id="Description" name="Description" class="form-control"></textarea>
+                        <span id="DescriptionError" class="text-danger" style="display:none;"></span>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveCategory">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+
         </div>
     </div>
 </div>
+
 
 @section scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(function () {
 
-            // Clear validation messages
+            // ✅ Clear validation
             function clearValidation() {
                 $(".invalid-feedback").text("").hide();
                 $("#CategoryName, #Description").removeClass("is-invalid");
             }
 
-            // Open Add modal
+            // ✅ Validation function
+            function validateCategoryForm() {
+                let isValid = true;
+
+                let nameInput = $("#CategoryName");
+                let nameError = $("#CategoryNameError");
+                let nameVal = nameInput.val().trim();
+
+                if (nameVal === "") {
+                    nameInput.addClass("is-invalid");
+                    nameError.show().text("Category name is required.");
+                    isValid = false;
+                } else if (nameVal.length < 3) {
+                    nameInput.addClass("is-invalid");
+                    nameError.show().text("Category name must be at least 3 characters.");
+                    isValid = false;
+                } else {
+                    nameInput.removeClass("is-invalid");
+                    nameError.hide().text("");
+                }
+
+                let descInput = $("#Description");
+                let descError = $("#DescriptionError");
+                let descVal = descInput.val().trim();
+
+                if (descVal === "") {
+                    descInput.addClass("is-invalid");
+                    descError.show().text("Description is required.");
+                    isValid = false;
+                } else if (descVal.length > 200) {
+                    descInput.addClass("is-invalid");
+                    descError.show().text("Description must be less than 200 characters.");
+                    isValid = false;
+                } else {
+                    descInput.removeClass("is-invalid");
+                    descError.hide().text("");
+                }
+
+                return isValid;
+            }
+
+            $(document).ready(function () {
+                $("#saveCategory").click(function (e) {
+                    e.preventDefault();
+
+                    if (validateCategoryForm()) {
+                        // لو كل حاجة صح، بعت الفورم
+                        $("#categoryForm").submit();
+                    }
+                });
+            });
+
+            // ✅ Open Add modal
             function openAdd() {
                 $("#categoryForm")[0].reset();
                 $("#CategoryID").val("");
@@ -68,7 +128,7 @@
                 $("#categoryModal").modal("show");
             }
 
-            // Open Edit modal
+            // ✅ Open Edit modal
             function openEdit(id, name, desc) {
                 $("#CategoryID").val(id);
                 $("#CategoryName").val(name);
@@ -77,24 +137,24 @@
                 $("#categoryModal").modal("show");
             }
 
-            // Click handlers
-            $(document).on('click', '#btnAdd, #btnAddCategory, .btn-success', function (e) {
+            // ✅ Click handlers
+            $(document).on('click', '#btnAddCategory', function (e) {
                 e.preventDefault();
                 openAdd();
             });
 
             $(document).on('click', '.edit-category', function (e) {
                 e.preventDefault();
-                var $btn = $(this);
+                let $btn = $(this);
                 openEdit($btn.data('id'), $btn.data('name') || "", $btn.data('desc') || "");
             });
 
-            // Delete with SweetAlert
+            // ✅ Delete with SweetAlert
             $(document).on('click', '.delete-category', function (e) {
                 e.preventDefault();
-                var $btn = $(this);
-                var id = $btn.data('id');
-                var $row = $btn.closest('tr');
+                let $btn = $(this);
+                let id = $btn.data('id');
+                let $row = $btn.closest('tr');
 
                 if (!id) return;
 
@@ -118,12 +178,12 @@
                                     $row.fadeOut(200, function () { $(this).remove(); });
                                     Swal.fire('Deleted!', 'The category has been deleted.', 'success');
                                 } else {
-                                    var msg = (res && res.message) ? res.message : "Delete failed.";
+                                    let msg = (res && res.message) ? res.message : "Delete failed.";
                                     Swal.fire('Error!', msg, 'error');
                                 }
                             },
                             error: function (xhr) {
-                                var txt = xhr && xhr.responseText ? xhr.responseText : "Error deleting category.";
+                                let txt = xhr && xhr.responseText ? xhr.responseText : "Error deleting category.";
                                 Swal.fire('Error!', txt, 'error');
                             }
                         });
@@ -131,45 +191,14 @@
                 });
             });
 
-            // Remove invalid class on input
-            $(document).on('input', '#CategoryName, #Description', function () {
-                $(this).removeClass("is-invalid");
-                $(this).siblings(".invalid-feedback").hide().text("");
-            });
-
-            // Submit form (Create / Edit)
-            $("#categoryForm").off('submit').on('submit', function (e) {
+            // ✅ Submit form
+            $("#categoryForm").off("submit").on("submit", function (e) {
                 e.preventDefault();
-                clearValidation();
 
-                var nameInput = $("#CategoryName");
-                var descInput = $("#Description");
-                var name = nameInput.val().trim();
-                var desc = descInput.val().trim();
-                var id = $("#CategoryID").val();
-                var isValid = true;
+                if (!validateCategoryForm()) return; // Stop if not valid
 
-                // Validate Category Name
-                if (name === "") {
-                    $("#CategoryNameError").text("Category name is required.").show();
-                    nameInput.addClass("is-invalid");
-                    isValid = false;
-                } else if (name.length < 3) {
-                    $("#CategoryNameError").text("Category name must be at least 3 characters.").show();
-                    nameInput.addClass("is-invalid");
-                    isValid = false;
-                }
-
-                // Validate Description
-                if (desc.length > 200) {
-                    $("#DescriptionError").text("Description must be less than 200 characters.").show();
-                    descInput.addClass("is-invalid");
-                    isValid = false;
-                }
-
-                if (!isValid) return;
-
-                var url = (id && id !== "0") ? '/Category/EditAjax' : '/Category/CreateAjax';
+                let id = $("#CategoryID").val();
+                let url = (id && id !== "0") ? '/Category/EditAjax' : '/Category/CreateAjax';
 
                 $.ajax({
                     url: url,
@@ -180,19 +209,19 @@
                         $("#categoryModal").modal("hide");
                         $("#categoryForm")[0].reset();
                         $("#CategoryID").val("");
-                        clearValidation();
                     },
                     error: function (xhr) {
-                        var message = xhr && xhr.responseText ? xhr.responseText : "An error occurred.";
+                        let message = xhr && xhr.responseText ? xhr.responseText : "An error occurred.";
                         Swal.fire('Error!', message, 'error');
                     }
                 });
             });
 
-            // Remove invalid class on typing
+            // ✅ Remove invalid class while typing
             $(document).on('input', '#CategoryName, #Description', function () {
                 $(this).removeClass("is-invalid");
                 $(this).siblings(".invalid-feedback").hide().text("");
             });
+        });
     </script>
 }

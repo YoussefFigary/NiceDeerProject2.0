@@ -23,12 +23,18 @@ namespace NorthwindTraders.Controllers
         [HttpPost]
         public ActionResult CreateAjax(Category category)
         {
+            // ✅ Validation
             if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
                 return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
 
-            if (category.Description?.Length > 200)
+            if (category.CategoryName.Length > 50)
+            {
+                return new HttpStatusCodeResult(400, "Category name must not exceed 50 characters.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(category.Description) && category.Description.Length > 200)
             {
                 return new HttpStatusCodeResult(400, "Description must be less than 200 characters.");
             }
@@ -40,16 +46,34 @@ namespace NorthwindTraders.Controllers
             return PartialView("_CategoryTable", categories);
         }
 
-
         [HttpPost]
         public ActionResult EditAjax(Category category)
         {
+            // ✅ Validation
             if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
                 return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
 
-            _context.Entry(category).State = System.Data.Entity.EntityState.Modified;
+            if (category.CategoryName.Length > 50)
+            {
+                return new HttpStatusCodeResult(400, "Category name must not exceed 50 characters.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(category.Description) && category.Description.Length > 200)
+            {
+                return new HttpStatusCodeResult(400, "Description must be less than 200 characters.");
+            }
+
+            var existingCategory = _context.Categories.Find(category.CategoryID);
+            if (existingCategory == null)
+            {
+                return HttpNotFound();
+            }
+
+            existingCategory.CategoryName = category.CategoryName;
+            existingCategory.Description = category.Description;
+
             _context.SaveChanges();
 
             var categories = _context.Categories.ToList();
