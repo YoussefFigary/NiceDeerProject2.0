@@ -1,4 +1,6 @@
-﻿using NorthwindTraders.Models;
+﻿﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models;
 using NorthwindTraders.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -13,106 +15,80 @@ namespace NorthwindTraders.Controllers
 {
     public class ProductsController : Controller
     {
-        //database
-        private NorthwindEntities db = new NorthwindEntities();
+        //BUSINESS LAYER INSTANCE
+        ProductBusiness ProductBusiness = new ProductBusiness();
 
         //displaying table
         [HttpGet]
         public ActionResult Index()
         {
-            var products = db.Products.Where(c => c != null).OrderBy(x => x.ProductID).ToList();
-            return View(products);
+            var response = ProductBusiness.GetProducts();
+            return View((List<ProductVM>)response.JsonData);
         }
 
         //details
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var product = db.Products.Find(id);
-            return PartialView("_ProductDetails", product);
+            var response = ProductBusiness.GetProductDetails(id);
+            return PartialView("_ProductDetails", (ProductVM)response.JsonData);
         }
-        [HttpGet]
+
         public ActionResult AddOrEditPopup(int id)
         {
+            ProductVM product;
+
             if (id == 0)
-                return PartialView("_ProductAddOrEdit", new Product()); // Empty model for Add
+            {
+                product = new ProductVM(); // Empty model for Add
+            }
             else
             {
-                var product = db.Products.Find(id);
-                if (product == null)
-                    product = new Product();
-
-                // Supplier dropdown
-                ViewBag.Suppliers = db.Suppliers
-                    .Select(s => new SelectListItem
-                    {
-                        Value = s.SupplierID.ToString(),
-                        Text = s.CompanyName
-                    })
-                    .ToList();
-
-                // Category dropdown
-                ViewBag.Categories = db.Categories
-                    .Select(c => new SelectListItem
-                    {
-                        Value = c.CategoryID.ToString(),
-                        Text = c.CategoryName
-                    })
-                    .ToList();
-
-                return PartialView("_ProductAddOrEdit", product);
+                var response = ProductBusiness.GetProductDetails(id);
+                product = response.JsonData as ProductVM;
             }
+
+            // Always populate dropdowns
+            var suppliers = ProductBusiness.GetSuppliers();
+            var categories = ProductBusiness.GetCategories();
+
+            ViewBag.Suppliers = suppliers.JsonData as List<SupplierVM>;
+            ViewBag.Categories = categories.JsonData as List<CategoryVM>;
+
+
+            return PartialView("_ProductAddOrEdit", product);
+
         }
 
         [HttpPost]
-        public ActionResult SaveEdit(Product product)
+        public ActionResult SaveEdit(ProductVM product)
         {
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, errors = new[] { "Invalid model state" } });
             }
+            var response = ProductBusiness.SaveProduct(product);
 
-            if (product.ProductID == 0)
-            {
-                //ADD
-                db.Products.Add(product);
-            }
-            else
-            {
-                // EDIT
-                db.Entry(product).State = EntityState.Modified;
-            }
-            db.SaveChanges();
-            return Json(new { success = true});
+            return Json(new { success = response.Success });
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            var product = db.Products.Find(id);
-            if (product == null)
-            {
-                return Json(new { success = false, message = "Product not found." });
-            }
 
             // Check relationships
-            bool hasOrders = db.Order_Details.Any( o => o.ProductID == id);
-
-            if (hasOrders)
+            var checkRelationResponse = ProductBusiness.hasOrders(id);
+            if (!checkRelationResponse.Success)
             {
                 return Json(new
                 {
-                    success = false,
-                    message = "Cannot delete this product because it has related Orders."
+                    checkRelationResponse.Success,
+                    checkRelationResponse.Message
                 });
             }
-
-            db.Products.Remove(product);
-            db.SaveChanges();
-
-            return Json(new { success = true, message = "Product deleted successfully." });
+            var response = ProductBusiness.DeleteProduct(id);
+            return Json(new { response.Success, response.Message });
         }
-
 
     }
 

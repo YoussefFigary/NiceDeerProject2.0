@@ -1,0 +1,17 @@
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\obj\Debug\Northwind.Business.csproj.AssemblyReference.cache
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\obj\Debug\Northwind.Business.csproj.CoreCompileInputs.cache
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.Business.dll.config
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.Business.dll
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.Business.pdb
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\EntityFramework.dll
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.DAL.dll
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.DTO.dll
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.DAL.pdb
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.DAL.dll.config
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\Northwind.DTO.pdb
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\EntityFramework.xml
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\obj\Debug\Northwin.70FD18CC.Up2Date
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\obj\Debug\Northwind.Business.dll
+C:\Users\Youssef\OneDrive\Documents\GitHub\NiceDeerProject2.0\Northwind.Business\obj\Debug\Northwind.Business.pdb

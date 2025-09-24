@@ -1,110 +1,90 @@
-﻿using System.Linq;
+﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models.DTOs;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using NorthwindTraders.Models;
 
 namespace NorthwindTraders.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly NorthwindEntities _context;
+        private readonly CategoryBusiness _categoryBusiness = new CategoryBusiness();
 
-        public CategoryController()
-        {
-            _context = new NorthwindEntities();
-        }
-
-        // Index
+        
+        [HttpGet]
         public ActionResult Index()
         {
-            var categories = _context.Categories.ToList();
+            var categories = (List<CategoryVM>)_categoryBusiness.GetCategories().JsonData;
             return View(categories);
         }
 
+        
         [HttpPost]
-        public ActionResult CreateAjax(Category category)
+        public ActionResult CreateAjax(CategoryVM category)
         {
-            // ✅ Validation
             if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
                 return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
 
-            if (category.CategoryName.Length > 50)
+            if (string.IsNullOrWhiteSpace(category.Description))
             {
-                return new HttpStatusCodeResult(400, "Category name must not exceed 50 characters.");
+                return new HttpStatusCodeResult(400, "Description is required.");
             }
 
-            if (!string.IsNullOrWhiteSpace(category.Description) && category.Description.Length > 200)
+            var response = _categoryBusiness.AddEditCategory(category);
+            if (!response.Success)
             {
-                return new HttpStatusCodeResult(400, "Description must be less than 200 characters.");
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = response.Message });
             }
 
-            _context.Categories.Add(category);
-            _context.SaveChanges();
-
-            var categories = _context.Categories.ToList();
+            var categories = (List<CategoryVM>)_categoryBusiness.GetCategories().JsonData;
             return PartialView("_CategoryTable", categories);
         }
 
+        // ✅ تعديل كاتيجوري (Ajax)
         [HttpPost]
-        public ActionResult EditAjax(Category category)
+        public ActionResult EditAjax(CategoryVM category)
         {
-            // ✅ Validation
             if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
                 return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
 
-            if (category.CategoryName.Length > 50)
+            if (string.IsNullOrWhiteSpace(category.Description))
             {
-                return new HttpStatusCodeResult(400, "Category name must not exceed 50 characters.");
+                return new HttpStatusCodeResult(400, "Description is required.");
             }
 
-            if (!string.IsNullOrWhiteSpace(category.Description) && category.Description.Length > 200)
+            var response = _categoryBusiness.AddEditCategory(category);
+            if (!response.Success)
             {
-                return new HttpStatusCodeResult(400, "Description must be less than 200 characters.");
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = response.Message });
             }
 
-            var existingCategory = _context.Categories.Find(category.CategoryID);
-            if (existingCategory == null)
-            {
-                return HttpNotFound();
-            }
-
-            existingCategory.CategoryName = category.CategoryName;
-            existingCategory.Description = category.Description;
-
-            _context.SaveChanges();
-
-            var categories = _context.Categories.ToList();
+            var categories = (List<CategoryVM>)_categoryBusiness.GetCategories().JsonData;
             return PartialView("_CategoryTable", categories);
         }
 
+        // ✅ حذف كاتيجوري (Ajax)
         [HttpPost]
-        public JsonResult DeleteAjax(int id)
+        public ActionResult DeleteAjax(int id)
         {
-            try
+            var category = (CategoryVM)_categoryBusiness.GetCategory(id).JsonData;
+            if (category == null)
             {
-                var category = _context.Categories.Find(id);
-                if (category == null)
-                {
-                    return Json(new { success = false, message = "Category not found." });
-                }
-
-                if (category.Products != null && category.Products.Any())
-                {
-                    return Json(new { success = false, message = "Cannot delete category with related products." });
-                }
-
-                _context.Categories.Remove(category);
-                _context.SaveChanges();
-
-                return Json(new { success = true, id = id });
+                return Json(new { success = false, message = "Category not found." });
             }
-            catch (System.Exception ex)
+
+            var response = _categoryBusiness.RemoveCategory(category);
+            if (!response.Success)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = response.Message });
             }
+
+            return Json(new { success = true });
         }
     }
 }

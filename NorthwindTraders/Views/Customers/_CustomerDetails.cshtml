@@ -1,4 +1,4 @@
-﻿@model NorthwindTraders.Models.Customer
+﻿@model Northwind.DTO.CustomerVM
 
 <body class="p-4">
 
@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <th scope="row">Region:</th>
-                    <td>@Model.Region</td>
+                    <td>@(Model.Region??"N/A")</td>
                 </tr>
                 <tr>
                     <th scope="row">Postal Code:</th>
@@ -47,14 +47,10 @@
                 </tr>
                 <tr>
                     <th scope="row">Fax:</th>
-                    <td>@Model.Fax</td>
+                    <td>@(Model.Fax??"N/A")</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
 </body>
-
-
-
-

@@ -1,9 +1,9 @@
-﻿@model NorthwindTraders.Models.Order
+﻿@model Northwind.DTO.OrderVM
 @{
-    var customers = ViewBag.Customers as List<NorthwindTraders.Models.Customer>;
-    var employees = ViewBag.Employees as List<NorthwindTraders.Models.Employee>;
-    var shippers = ViewBag.Shippers as List<NorthwindTraders.Models.Shipper>;
-    var orderDetails = ViewBag.Order_Details as List<NorthwindTraders.Models.Order_Detail>;
+    var customers = ViewBag.Customers as List<Northwind.DTO.CustomerVM>;
+    var employees = ViewBag.Employees as List<Northwind.DTO.EmployeeVM>;
+    var shippers = ViewBag.Shippers as List<Northwind.DTO.ShipperVM>;
+    var orderDetails = ViewBag.Order_Details as List<Northwind.DTO.Order_DetailVM>;
     var currentOrderDetail = orderDetails.Where(d => d.OrderID == Model.OrderID);
 }
 
@@ -92,17 +92,17 @@
                                         <td> @detail.UnitPrice</td>
                                         <td> @detail.Quantity</td>
                                         <td> @detail.Discount</td>
-                                        <td> @detail.Product.ProductName</td>
+                                        <td> @detail.ProductID</td>
                                         <td><button type="button" class="btn btn-danger" onclick="DeleteDetail(@detail.OrderID,@detail.ProductID)"><i class="bi bi-trash3-fill"></i></button></td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </td>
-                
+
                 </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+            </tbody>
+        </table>
+    </div>
+</body>
 

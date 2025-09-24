@@ -1,4 +1,4 @@
-﻿@model NorthwindTraders.Models.Employee
+﻿@model Northwind.DTO.EmployeeVM
 @{
     var Titles = ViewBag.Titles as List<string>;
     var TitleOfCourtes = ViewBag.TitleOfCourtes as List<string>;
@@ -24,13 +24,13 @@
 
     <div class="col-md-4">
         <label class="form-label">First Name</label>
-        <input name="FirstName" value="@Model.FirstName" class="form-control" placeholder="First Name" required />
-        <div class="invalid-feedback">FirstName is required.</div>
+        <input name="FirstName" value="@Model.FirstName" class="form-control" placeholder="First Name" required pattern="[A-Za-z]{1,10}" maxlength="10"" />
+        <div class="invalid-feedback">FirstName is required and must be max 10 characters .</div>
     </div>
 
     <div class="col-md-4">
         <label class="form-label"> Last Name</label>
-        <input name="LastName" value="@Model.LastName" class="form-control" placeholder="Last Name" required/>
+        <input name="LastName" value="@Model.LastName" class="form-control" placeholder="Last Name" required pattern="[A-Za-z]{1,20}" maxlength="20"/>
         <div class="invalid-feedback">Last Name is required.</div>
     </div>
 
@@ -48,25 +48,25 @@
 
     <div class="col-md-6">
         <label class="form-label">Hire Date </label>
-        <input type="datetime" name="HireDate" value="@Model.HireDate" class="form-control" placeholder="Hire Date" required />
+        <input type="date" name="HireDate" value="@(Model.HireDate?.ToString("yyyy-MM-dd"))" class="form-control" placeholder="Hire Date" required />
         <div class="invalid-feedback">Hire Date is required.</div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Home Phone</label>
-        <input name="HomePhone" value="@Model.HomePhone" class="form-control" placeholder="Home Phone" required />
+        <input name="HomePhone" value="@Model.HomePhone" class="form-control" placeholder="Home Phone" required pattern="[0-9{1,24}" maxlength="24" />
         <div class="invalid-feedback">Home Phone number is required.</div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Birth Date</label>
-        <input type="datetime" name="BirthDate" value="@Model.BirthDate" class="form-control" placeholder="Birth Date" required />
+        <input type="date" name="BirthDate" value="@(Model.BirthDate?.ToString("yyyy-MM-dd"))" class="form-control" placeholder="Birth Date" required />
         <div class="invalid-feedback">Birth Date is required.</div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Address</label>
-        <input name="Address" value="@Model.Address" class="form-control" placeholder="Address" required />
+        <input name="Address" value="@Model.Address" class="form-control" placeholder="Address" required pattern="{1,60}" maxlength="60" />
         <div class="invalid-feedback">Address is required.</div>
     </div>
 
@@ -102,14 +102,14 @@
 
     <div class="col-md-4">
         <label class="form-label">Postal Code</label>
-        <input name="PostalCode" value="@Model.PostalCode" class="form-control" placeholder="Postal Code" />
-        <div class="invalid-feedback">Postal code is required.</div>
+        <input name="PostalCode" value="@Model.PostalCode" class="form-control" placeholder="Postal Code" required pattern="{1,4}"  />
+        <div class="invalid-feedback">Postal code is required and must be max 10 characters .</div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Extension</label>
-        <input name="Extension" value="@Model.Extension" class="form-control" placeholder="Extension" required />
-        <div class="invalid-feedback">Extension is required.</div>
+        <input name="Extension" value="@Model.Extension" class="form-control" placeholder="Extension" required pattern=".{1,4}" title="Extension must be 1 to 4 characters only" />
+        <div class="invalid-feedback">Extension is required and must be max 4 characters.</div>
     </div>
 
     <!--needs edits in the backend-->

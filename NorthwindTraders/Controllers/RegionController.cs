@@ -1,82 +1,88 @@
-﻿using System.Linq;
+﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models.DTOs;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
-using NorthwindTraders.Models;
 
 namespace NorthwindTraders.Controllers
 {
     public class RegionController : Controller
     {
-        private readonly NorthwindEntities _context;
+        private readonly RegionBusiness _regionBusiness = new RegionBusiness();
 
-        public RegionController()
-        {
-            _context = new NorthwindEntities();
-        }
-
-        // Index
+       
+        [HttpGet]
         public ActionResult Index()
         {
-            var regions = _context.Regions.ToList();
+            var regions = (List<RegionVM>)_regionBusiness.GetRegions().JsonData;
+
+            regions = regions.OrderBy(r => r.RegionID).ToList();
+
             return View(regions);
         }
 
+
         [HttpPost]
-        public ActionResult CreateAjax(Region region)
+        public ActionResult CreateAjax(RegionVM region)
         {
+            
             if (string.IsNullOrWhiteSpace(region.RegionDescription) || region.RegionDescription.Length < 3)
             {
-                return new HttpStatusCodeResult(400, "Region description must be at least 3 characters.");
+                return new HttpStatusCodeResult(400, "Description must be at least 3 characters.");
             }
 
-            // معالجة مشكلة الـ PK لو مش Identity
-            if (region.RegionID == 0)
+            var response = _regionBusiness.AddEditRegion(region);
+            if (!response.Success)
             {
-                region.RegionID = _context.Regions.Any()
-                    ? _context.Regions.Max(r => r.RegionID) + 1
-                    : 1;
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = response.Message });
             }
 
-            _context.Regions.Add(region);
-            _context.SaveChanges();
+            var regions = (List<RegionVM>)_regionBusiness.GetRegions().JsonData;
+            regions = regions.OrderBy(r => r.RegionID).ToList();
 
-            var regions = _context.Regions.ToList();
             return PartialView("_RegionTable", regions);
         }
 
         [HttpPost]
-        public ActionResult EditAjax(Region region)
+        public ActionResult EditAjax(RegionVM region)
         {
             if (string.IsNullOrWhiteSpace(region.RegionDescription) || region.RegionDescription.Length < 3)
             {
-                return new HttpStatusCodeResult(400, "Region description must be at least 3 characters.");
+                return new HttpStatusCodeResult(400, "Description must be at least 3 characters.");
             }
 
-            var existingRegion = _context.Regions.Find(region.RegionID);
-            if (existingRegion == null)
+            var response = _regionBusiness.AddEditRegion(region);
+            if (!response.Success)
             {
-                return HttpNotFound();
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = response.Message });
             }
 
-            existingRegion.RegionDescription = region.RegionDescription;
-            _context.SaveChanges();
+            var regions = (List<RegionVM>)_regionBusiness.GetRegions().JsonData;
+            regions = regions.OrderBy(r => r.RegionID).ToList();
 
-            var regions = _context.Regions.ToList();
             return PartialView("_RegionTable", regions);
         }
 
         [HttpPost]
         public ActionResult DeleteAjax(int id)
         {
-            var region = _context.Regions.Find(id);
-            if (region != null)
+            var record = (RegionVM)_regionBusiness.GetRegion(id).JsonData;
+            if (record == null)
             {
-                _context.Regions.Remove(region);
-                _context.SaveChanges();
-
-                var regions = _context.Regions.ToList();
-                return PartialView("_RegionTable", regions);
+                return Json(new { success = false, message = "Region not found." });
             }
-            return Json(new { success = false, message = "Not Found" });
+
+            var response = _regionBusiness.RemoveRegion(record);
+            if (!response.Success)
+            {
+                return Json(new { success = false, message = response.Message });
+            }
+
+            return Json(new { success = true });
         }
+
     }
 }

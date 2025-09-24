@@ -1,4 +1,6 @@
-﻿using NorthwindTraders.Models;
+﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models;
 using NorthwindTraders.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -13,115 +15,118 @@ namespace NorthwindTraders.Controllers
 {
     public class CustomersController : Controller
     {
-        //database
-        private NorthwindEntities db = new NorthwindEntities();
+        //BUSINESS LAYER INSTANCE
+        CustomerBusiness CustomerBusiness = new CustomerBusiness();
 
         //displaying table
         [HttpGet]
         public ActionResult Index()
         {
-            var customers = db.Customers.Where(c => c != null).OrderBy(x => x.CustomerID).ToList();
-            return View(customers);
+            var response = CustomerBusiness.GetCustomers();
+            return View((List<CustomerVM>)response.JsonData);
         }
+
 
         //details
         [HttpGet]
         public ActionResult Details(string id)
         {
-            var customer = db.Customers.Find(id);
-            return PartialView("_CustomerDetails", customer);
+            var response = CustomerBusiness.GetCustomerDetails(id);
+            return PartialView("_CustomerDetails", (CustomerVM)response.JsonData);
         }
+
         [HttpGet]
         public ActionResult AddOrEditPopup(string id)
         {
-            if (id == "")
-                return PartialView("_CustomerAddOrEdit", new Customer()); // Empty model for Add
+            CustomerVM customer;
+
+            if (string.IsNullOrEmpty(id))
+            {
+                customer = new CustomerVM(); // Empty model for Add
+            }
             else
             {
-                var customer = db.Customers.Find(id);
-                if (customer == null)
-                    customer = new Customer();
-                ViewBag.ContactTitles = db.Customers.Select(c => c.ContactTitle).Distinct().ToList();
-                ViewBag.Cities = db.Customers.Select(c => c.City).Distinct().ToList();
-                ViewBag.Countries = db.Customers.Select(c => c.Country).Distinct().ToList();
-
-                return PartialView("_CustomerAddOrEdit", customer);
+                var response = CustomerBusiness.GetCustomerDetails(id);
+                customer = response.JsonData as CustomerVM;
             }
 
+            // Always populate dropdowns
+            var contactTitles = CustomerBusiness.GetContactTitles();
+            var cities = CustomerBusiness.GetCities();
+            var countries = CustomerBusiness.GetCountries();
+
+            ViewBag.ContactTitles = contactTitles.JsonData as List<string>;
+            ViewBag.Cities = cities.JsonData as List<string>;
+            ViewBag.Countries = countries.JsonData as List<string>;
+
+            return PartialView("_CustomerAddOrEdit", customer);
+
         }
+
         [HttpPost]
-        public ActionResult SaveEdit(Customer customer)
+        public ActionResult SaveEdit(CustomerVM customer)
         {
             if (!ModelState.IsValid)
             {
                 return Json(new { success = false, errors = new[] { "Invalid model state" } });
             }
+            var response = CustomerBusiness.SaveCustomer(customer);
 
-            // Try to find existing customer
-            var existing = db.Customers.Find(customer.CustomerID);
-
-            if (existing == null)
-            {
-                //ADD
-                if (string.IsNullOrEmpty(customer.CustomerID))
-                {
-                    customer.CustomerID = Guid.NewGuid().ToString("N").Substring(0, 5).ToUpper();
-                }
-
-                db.Customers.Add(customer);
-            }
-            else
-            {
-                // EDIT
-                //  if (existing.ContactName == null)
-                /* 
-                 existing.CompanyName = customer.CompanyName;
-                 existing.ContactName = customer.ContactName;
-                 existing.ContactTitle = customer.ContactTitle;
-                 existing.Address = customer.Address;
-                 existing.City = customer.City;
-                 existing.Region = customer.Region;
-                 existing.PostalCode = customer.PostalCode;
-                 existing.Country = customer.Country;
-                 existing.Phone = customer.Phone;
-                 existing.Fax = customer.Fax;
-                */
-                db.Entry(existing).CurrentValues.SetValues(customer);
-
-            }
-
-            db.SaveChanges();
-            return Json(new { success = true });
+            return Json(new { success = response.Success });
         }
 
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            var customer = db.Customers.Find(id);
-            if (customer == null)
+            var response = CustomerBusiness.DeleteCustomer(id);
+
+            if (response.JsonData == null)
             {
-                return Json(new { success = false, message = "Customer not found." });
+                return Json(new { response.Success, response.Message });
             }
 
             // Check relationships
-            bool hasOrders = db.Orders.Any(o => o.CustomerID == id);
-
-            if (hasOrders)
+            var checkRelationResponse = CustomerBusiness.hasOrders(id);
+            if (checkRelationResponse.Success)
             {
                 return Json(new
                 {
-                    success = false,
-                    message = "Cannot delete this customer because it has related Orders."
+                    checkRelationResponse.Success,
+                    checkRelationResponse.Message
                 });
             }
 
-            db.Customers.Remove(customer);
-            db.SaveChanges();
-
-            return Json(new { success = true, message = "Customer deleted successfully." });
+            return Json(new { response.Success, response.Message });
         }
 
 
-    }
+        //  DELETE ZAI YOUSSEF
+        //[HttpPost]
+        //public ActionResult Delete(string id)
+        //{
 
+        //    var relatedorders = CustomerBusiness.checkOrders(id);
+
+        //    if (relatedorders.Count != 0)
+        //    {
+        //        Response.StatusCode = 409;
+        //        return Json(new
+        //        {
+        //            error = "Cannot delete because an order is linked to this Customer",
+        //            linkedorders = relatedorders
+        //        }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    var response =CustomerBusiness.DeleteCustomer(id);
+        //    if (response.JsonData == null)
+        //    {
+        //        Response.StatusCode = 404;
+        //        return Json(new { success = false, message = "Customer not found." });
+        //    }
+
+        //    return Json(new { success = response.Success , message = "Customer deleted successfully." });
+        //}
+    }
 }
+
+
+

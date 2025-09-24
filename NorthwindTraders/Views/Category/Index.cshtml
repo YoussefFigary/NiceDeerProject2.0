@@ -1,4 +1,5 @@
-﻿@model IEnumerable<NorthwindTraders.Models.Category>
+﻿@model IEnumerable<Northwind.DTO.CategoryVM>
+
 
 @{
     ViewBag.Title = "Categories";
@@ -120,12 +121,15 @@
                 });
             });
 
+            
             // ✅ Open Add modal
             function openAdd() {
                 $("#categoryForm")[0].reset();
                 $("#CategoryID").val("");
                 clearValidation();
-                $("#categoryModal").modal("show");
+
+                var myModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+                myModal.show();
             }
 
             // ✅ Open Edit modal
@@ -134,8 +138,11 @@
                 $("#CategoryName").val(name);
                 $("#Description").val(desc);
                 clearValidation();
-                $("#categoryModal").modal("show");
+
+                var myModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+                myModal.show();
             }
+
 
             // ✅ Click handlers
             $(document).on('click', '#btnAddCategory', function (e) {

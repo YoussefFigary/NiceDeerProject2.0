@@ -1,30 +1,38 @@
-﻿using NorthwindTraders.Models;
+﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models;
 using NorthwindTraders.Models.DTOs;
 using System;
-using System.Data.Entity;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace NorthwindTraders.Controllers
 {
+
     public class SupplierController : Controller
     {
-        private NorthwindEntities db = new NorthwindEntities();
+        SupplierBusiness SupplierBusiness = new SupplierBusiness();
         // GET: Supplier
-        
-        public ActionResult Supplier()
+
+        public ActionResult Index()
         {
-            var Suppliers = db.Suppliers.Where(t => t != null).OrderBy(x => x.SupplierID).ToList();
-            return View(Suppliers);
+            var response = SupplierBusiness.GetSuppliers();
+            if (response.Success)
+            {
+                return View((List<SupplierVM>)response.JsonData);
+            }
+            return View();
         }
 
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var supplier = db.Suppliers.Find(id);
+            var supplier = (SupplierVM)SupplierBusiness.GetSupplier(id).JsonData;
             return PartialView("_DetailsPopup", supplier);
+            
         }
 
         [HttpPost]
@@ -41,49 +49,41 @@ namespace NorthwindTraders.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            var record = db.Suppliers.Find(id);
+            var record = (SupplierVM)SupplierBusiness.GetSupplier(id).JsonData;
             if (record == null)
             {
                 Response.StatusCode = 404;
                 return Json(new { error = "Supplier not found." }, JsonRequestBehavior.AllowGet);
             }
 
-            db.Suppliers.Remove(record);
-            db.SaveChanges();
+            SupplierBusiness.RemoveSupplier(record);
 
             return Json(new { success = true });
         }
         public List<ProductInfo> CheckProducts(int id)
         {
-            var Products = db.Suppliers
-                              .Where(t => t.SupplierID == id)
-                              .SelectMany(t => t.Products)
-                              .Select(e => new ProductInfo
-                              {
-                                  ProductID = e.ProductID,
-                                  ProductName = e.ProductName
-                              })
-                              .ToList();
+            List<ProductInfo> Products = (List<ProductInfo>) SupplierBusiness.CheckProducts(id).JsonData;
 
             return Products;
         }
 
         public ActionResult AddOrEditPopup(int id)
         {
-            ViewBag.ContactTitles = db.Suppliers.Select(c => c.ContactTitle).Distinct().ToList();
-            ViewBag.Cities = db.Suppliers.Select(c => c.City).Distinct().ToList();
-            ViewBag.Countries = db.Suppliers.Select(c => c.Country).Distinct().ToList();
+            ViewBag.ContactTitles = (List<String>)SupplierBusiness.GetContactTitle().JsonData;
+            ViewBag.Cities = (List<String>)SupplierBusiness.GetCities().JsonData;
+            ViewBag.Countries = (List<String>)SupplierBusiness.GetCountry().JsonData;
             if (id == 0)
-                return PartialView("_SupplierAddOrEdit", new Supplier()); // Empty model for Add
+                return PartialView("_SupplierAddOrEdit", new SupplierVM()); // Empty model for Add
             else
             {
-                var Suppliers = db.Suppliers.Find(id);
+                var Suppliers = (SupplierVM)SupplierBusiness.GetSupplier(id).JsonData;
+
                 return PartialView("_SupplierAddOrEdit", Suppliers); // Filled model for Edit
             }
         }
     
         [HttpPost]
-        public ActionResult SaveEdit(Supplier supplier)
+        public ActionResult SaveEdit(SupplierVM supplier)
         {
             if (!ModelState.IsValid)
             {
@@ -91,27 +91,9 @@ namespace NorthwindTraders.Controllers
             }
 
             // Try to find existing Supplier
-            var existing = db.Suppliers.Find(supplier.SupplierID);
-
-
-            if (supplier.SupplierID == 0)
-            {
-                //ADD
-               
-
-                db.Suppliers.Add(supplier);
-            }
-            else
-            {
-                // EDIT
-
-                db.Entry(existing).CurrentValues.SetValues(supplier);
-              //  db.Entry(supplier).State = EntityState.Modified;
-
-            }
-
-            db.SaveChanges();
-            return Json(new { success = true });
+            var response = SupplierBusiness.AddEditSupplier(supplier);
+           
+            return Json(new { success = response.Success });
         }
     }
 }

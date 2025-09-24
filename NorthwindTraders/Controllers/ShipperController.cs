@@ -1,80 +1,61 @@
-﻿using System.Linq;
+﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models.DTOs;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using NorthwindTraders.Models;
 
 namespace NorthwindTraders.Controllers
 {
     public class ShipperController : Controller
     {
-        private readonly NorthwindEntities _context;
+        private readonly ShipperBusiness _shipperBusiness = new ShipperBusiness(); // Renamed to avoid ambiguity
 
-        public ShipperController()
-        {
-            _context = new NorthwindEntities();
-        }
-
-        // Index
+        [HttpGet]
         public ActionResult Index()
         {
-            var shippers = _context.Shippers.ToList();
-            return View(shippers);
-        }
-        [HttpPost]
-        public ActionResult CreateAjax(Shipper shipper)
-        {
-            if (string.IsNullOrWhiteSpace(shipper.CompanyName) || shipper.CompanyName.Length < 3)
-            {
-                return new HttpStatusCodeResult(400, "Company name must be at least 3 characters.");
-            }
-
-            if (string.IsNullOrWhiteSpace(shipper.Phone) ||
-                !System.Text.RegularExpressions.Regex.IsMatch(shipper.Phone, @"^[0-9+\-() ]{5,}$"))
-            {
-                return new HttpStatusCodeResult(400, "Invalid phone number format.");
-            }
-
-            _context.Shippers.Add(shipper);
-            _context.SaveChanges();
-
-            var shippers = _context.Shippers.ToList();
-            return PartialView("_ShipperTable", shippers);
-        }
-
-        [HttpPost]
-        public ActionResult EditAjax(Shipper shipper)
-        {
-            if (string.IsNullOrWhiteSpace(shipper.CompanyName) || shipper.CompanyName.Length < 3)
-            {
-                return new HttpStatusCodeResult(400, "Company name must be at least 3 characters.");
-            }
-
-            if (string.IsNullOrWhiteSpace(shipper.Phone) ||
-                !System.Text.RegularExpressions.Regex.IsMatch(shipper.Phone, @"^[0-9+\-() ]{5,}$"))
-            {
-                return new HttpStatusCodeResult(400, "Invalid phone number format.");
-            }
-
-            _context.Entry(shipper).State = System.Data.Entity.EntityState.Modified;
-            _context.SaveChanges();
-
-            var shippers = _context.Shippers.ToList();
-            return PartialView("_ShipperTable", shippers);
+            var shippers = (List<ShipperVM>)_shipperBusiness.GetShippers().JsonData;
+            return View(shippers); 
         }
 
 
-        [HttpPost]
-        public ActionResult DeleteAjax(int id)
-        {
-            var shipper = _context.Shippers.Find(id);
-            if (shipper != null)
-            {
-                _context.Shippers.Remove(shipper);
-                _context.SaveChanges();
 
-                var shippers = _context.Shippers.ToList();
-                return PartialView("_ShipperTable", shippers);
+        public ActionResult AddOrEditPopup(int id)
+        {
+            if (id == 0)
+                return PartialView("_ShipperAddOrEdit", new ShipperVM()); // Add
+            else
+            {
+                var shipper = (ShipperVM)_shipperBusiness.GetShipper(id).JsonData;
+                return PartialView("_ShipperAddOrEdit", shipper); // Edit
             }
-            return Json(new { success = false, message = "Not Found" });
+        }
+
+        // ✅ Save or Edit
+        [HttpPost]
+        public ActionResult SaveEdit(ShipperVM shipper)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, errors = new[] { "Invalid model state" } });
+            }
+
+            var response = _shipperBusiness.AddEditShipper(shipper);
+
+            return Json(new { success = response.Success });
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var response = _shipperBusiness.RemoveShipper(id);
+
+            if (!response.Success)
+            {
+                Response.StatusCode = 404;
+                return Json(new { error = "Shipper not found." }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { success = true });
         }
     }
 }

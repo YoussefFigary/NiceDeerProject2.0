@@ -1,0 +1,171 @@
+﻿
+@model IEnumerable<Northwind.DTO.TerritoryVM>
+@{
+    ViewBag.Title = "Territory";
+}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<main>
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="display-4 mb-0 me-3" style="line-height: 1;">Territory</h1>
+        <button type="button" class="btn btn-success btn-lg" onclick="addOreditTerritory(0)">Add Territory</button>
+    </div>
+
+
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Territory ID</th>
+                <th>Description</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TerritoryID</td>
+                    <td>@item.TerritoryDescription</td>
+                    <td>@item.RegionName</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" onclick="addOreditTerritory('@item.TerritoryID')"><i class="bi bi-pencil-fill"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="DeleteTerritorypopup('@item.TerritoryID')"><i class="bi bi-trash3-fill"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</main>
+
+<div class="modal fade" id="TerritoryEditModal" tabindex="-1" aria-labelledby="TerritoryEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="TerritoryEditModalLabel"></h5> <!-- title will be set dynamically -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" id="TerritoryEditModalBody">
+                <!-- Partial view will load here -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function DeleteTerritorypopup(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                DeleteTerritory(id);
+            }
+        });
+    }
+    function DeleteTerritory(id) {
+        $.ajax({
+            url: `/Territory/Delete?id=${id}`,
+            type: 'POST',
+            contentType: 'application/json',
+            success: function (data, textStatus, jqXHR) {
+                // 200 OK
+                Swal.fire('Deleted!', 'The Territory was deleted.', 'success')
+                    .then(() => location.reload());    ;
+            },
+            error: function (jqXHR) {
+                // jqXHR.status will be 409 or 404
+                if (jqXHR.status === 409) {
+                    // Conflict — parse JSON and show linked records
+                    var data = JSON.parse(jqXHR.responseText);
+                    var list = data.linkedEmployees
+                        .map(function (e) { return '<li>' + e.FullName + '</li>'; })
+                        .join('');
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Can Not Delete This Territory is Linked to the Employees below:",
+                        html: '<p>' + list + '</p>'
+                    });
+                }
+                else if (jqXHR.status === 404) {
+                    var data = JSON.parse(jqXHR.responseText);
+                    Swal.fire('Error', data.error, 'error');
+                }
+                else {
+                    Swal.fire('Error', 'Unexpected error occurred', 'error');
+                }
+            }
+        });
+
+    }
+    function validateAndSave() {
+       
+        var form = document.getElementById('adddoredit-Territory-form');
+
+        // check Bootstrap validation
+        if (form.checkValidity()) {
+            saveTerritory();
+        } else {
+            form.classList.add('was-validated'); // show errors
+        }
+    }
+    function saveTerritory() {
+        var formData = $("#adddoredit-Territory-form").serialize();
+        $.ajax({
+            url: '/Territory/SaveEdit',
+            type: 'POST',
+            data: formData,
+            success: function (result) {
+                if (result.success) {
+                    Swal.fire("Success", "Territory Saved!", "success")
+                        .then(() => location.reload());
+                } else {
+                    Swal.showValidationMessage("Error updating Territory");
+                }
+            },
+            error: function () {
+                Swal.showValidationMessage("Error while saving Territory");
+            }
+        });
+    }
+
+    function addOreditTerritory(id) {
+
+        $.ajax({
+            url: `/Territory/AddOREditPopup?id=${id}`,
+            type: 'GET',
+            success: function (partialViewHtml) {
+                $("#TerritoryEditModalBody").html(partialViewHtml);
+
+                if (id === "" || id === null) {
+                    $("#TerritoryEditModalLabel").text("Add Territory");
+                } else {
+                    $("#TerritoryEditModalLabel").text("Edit Territory");
+                }
+
+                $("#TerritoryEditModal").modal('show');
+            },
+            error: function () {
+                Swal.fire("Error", "Could not load form", "error");
+            }
+        });
+    }
+
+
+
+
+</script>
+
+

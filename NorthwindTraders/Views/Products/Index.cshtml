@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<NorthwindTraders.Models.Product>
+@model IEnumerable<Northwind.DTO.ProductVM>
 @{
     ViewBag.Title = "Products";
 
@@ -151,11 +151,11 @@
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
-                        if (result.success) {
-                            Swal.fire("Deleted!", result.message, "success")
+                        if (result.Success) {
+                            Swal.fire("Deleted!", result.Message, "success")
                                 .then(() => location.reload());
                         } else {
-                            Swal.fire("Blocked", result.message, "error");
+                            Swal.fire("Blocked", result.Message, "error");
                         }
                     },
                     error: function () {

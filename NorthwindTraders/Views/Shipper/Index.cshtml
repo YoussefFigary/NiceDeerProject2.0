@@ -1,144 +1,46 @@
-﻿@model IEnumerable<NorthwindTraders.Models.Shipper>
+﻿@model IEnumerable<Northwind.DTO.ShipperVM>
 
-@{
-    ViewBag.Title = "Shippers";
-}
+<div class="container">
+    <h2>Shippers</h2>
 
-<h2>Shippers</h2>
-<button id="openAddModal" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#shipperModal">
-     Add Shipper
-</button>
-<div id="shipperTableContainer">
+    <button class="btn btn-success mb-3" onclick="openCreateShipperModal()">
+        <i class="bi bi-plus-lg"></i> Add Shipper
+    </button>
+
     @Html.Partial("_ShipperTable", Model)
-</div>
+    @section scripts {@Html.Partial("_ShipperScripts")}
 
-@*modal*@
-<div class="modal fade" id="shipperModal" tabindex="-1" aria-labelledby="shipperModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="shipperModalLabel">Add Shipper</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+    <!-- Modal  -->
+    <div class="modal fade" id="shipperModal" tabindex="-1" aria-labelledby="shipperModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <form id="shipperForm">
-                    <input type="hidden" id="shipperId" />
-
-                    <!-- Company Name -->
-                    <div class="mb-3">
-                        <label for="companyName" class="form-label">Company Name</label>
-                        <input type="text" id="companyName" class="form-control" placeholder="Enter company name">
-                        <div class="invalid-feedback">Company name must be at least 3 characters.</div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="shipperModalLabel">Add / Edit Shipper</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="ShipperID" name="ShipperID" value="0" />
 
-                    <!-- Phone -->
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                        <input type="text" id="phone" class="form-control" placeholder="Enter phone">
-                        <div class="invalid-feedback">Please enter a valid phone number (min 5 digits).</div>
+                        <div class="mb-3">
+                            <label for="CompanyName" class="form-label">Company Name</label>
+                            <input type="text" id="CompanyName" name="CompanyName" class="form-control" />
+                            <div class="invalid-feedback" id="CompanyNameError"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Phone" class="form-label">Phone</label>
+                            <input type="text" id="Phone" name="Phone" class="form-control" />
+                            <div class="invalid-feedback" id="PhoneError"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" id="saveShipperBtn">Save</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" id="saveShipper" class="btn btn-primary">Save</button>
-            </div>
         </div>
     </div>
-</div>
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // Validation Function
-        function validateShipperForm() {
-            let isValid = true;
-
-            // CompanyName
-            let companyName = $("#companyName").val().trim();
-            if (companyName.length < 3) {
-                $("#companyName").addClass("is-invalid");
-                isValid = false;
-            } else {
-                $("#companyName").removeClass("is-invalid");
-            }
-
-            // Phone
-            let phone = $("#phone").val().trim();
-            if (!/^[0-9+\-() ]{5,}$/.test(phone)) {
-                $("#phone").addClass("is-invalid");
-                isValid = false;
-            } else {
-                $("#phone").removeClass("is-invalid");
-            }
-
-            return isValid;
-        }
-
-        // Add / Edit Shipper
-        $("#saveShipper").click(function () {
-            let id = $("#shipperId").val();
-            let companyName = $("#companyName").val();
-            let phone = $("#phone").val();
-
-            if (!validateShipperForm()) {
-                return; 
-            }
-
-            let url = id ? "/Shipper/EditAjax" : "/Shipper/CreateAjax";
-            let payload = id
-                ? { ShipperID: id, CompanyName: companyName, Phone: phone }
-                : { CompanyName: companyName, Phone: phone };
-
-            $.post(url, payload, function (data) {
-                $("#shipperTableContainer").html(data);
-                $("#shipperModal").modal("hide");
-                $("#shipperForm")[0].reset();
-                $("#shipperId").val("");
-                $("#shipperModalLabel").text("Add Shipper");
-                $("#saveShipper").text("Save");
-                $(".is-invalid").removeClass("is-invalid");
-            }).fail(function (xhr) {
-                Swal.fire("Error", xhr.statusText, "error");
-            });
-        });
 
 
-        $(document).on("click", ".edit-shipper", function () {
-            let id = $(this).data("id");
-            let row = $(this).closest("tr");
-            let companyName = row.find("td:eq(1)").text().trim();
-            let phone = row.find("td:eq(2)").text().trim();
 
-            $("#shipperId").val(id);
-            $("#companyName").val(companyName);
-            $("#phone").val(phone);
-            $("#shipperModalLabel").text("Edit Shipper");
-            $("#saveShipper").text("Update");
-
-            $("#shipperModal").modal("show");
-        });
-
-        // ✅ Delete Shipper
-        $(document).on("click", ".delete-shipper", function () {
-            let id = $(this).data("id");
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "This will permanently delete the shipper.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.post("/Shipper/DeleteAjax", { id: id }, function (data) {
-                        $("#shipperTableContainer").html(data);
-                        Swal.fire("Deleted!", "Shipper has been deleted.", "success");
-                    }).fail(function (xhr) {
-                        Swal.fire("Error", xhr.statusText, "error");
-                    });
-                }
-            });
-        });
-    </script>
-}

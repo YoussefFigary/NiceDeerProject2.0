@@ -1,9 +1,9 @@
-﻿﻿@model NorthwindTraders.Models.Order
+﻿@model Northwind.DTO.OrderVM
 @{
-    var customers = ViewBag.Customers as List<NorthwindTraders.Models.Customer>;
-    var employees = ViewBag.Employees as List<NorthwindTraders.Models.Employee>;
-    var shippers = ViewBag.Shippers as List<NorthwindTraders.Models.Shipper>;
-    var orderDetails = ViewBag.Order_Details as List<NorthwindTraders.Models.Order_Detail>;
+    var customers = ViewBag.Customers as List<Northwind.DTO.CustomerVM>;
+    var employees = ViewBag.Employees as List<Northwind.DTO.EmployeeVM>;
+    var shippers = ViewBag.Shippers as List<Northwind.DTO.ShipperVM>;
+    var orderDetails = ViewBag.Order_Details as List<Northwind.DTO.Order_DetailVM>;
     var currentOrderDetail = orderDetails.Where(d => d.OrderID == Model.OrderID);
 }
 
@@ -15,7 +15,7 @@
         <label class="form-label">Customer</label>
         <select name="CustomerID" class="form-select" required>
             <option selected disabled value="">Choose...</option>
-            @foreach (var c in customers ?? new List<NorthwindTraders.Models.Customer>())
+            @foreach (var c in customers ?? new List<Northwind.DTO.CustomerVM>())
             {
                 <option value="@c.CustomerID" @(c.CustomerID == Model.CustomerID ? "selected" : "")>
                     @c.CompanyName
@@ -30,7 +30,7 @@
         <label class="form-label">Employee</label>
         <select name="EmployeeID" class="form-select" required>
             <option selected disabled value="">Choose...</option>
-            @foreach (var e in employees ?? new List<NorthwindTraders.Models.Employee>())
+            @foreach (var e in employees ?? new List<Northwind.DTO.EmployeeVM>())
             {
                 <option value="@e.EmployeeID" @(e.EmployeeID == Model.EmployeeID ? "selected" : "")>
                     @e.FirstName @e.LastName
@@ -65,7 +65,7 @@
         <label class="form-label">Ship Via</label>
         <select name="ShipVia" class="form-select" required>
             <option selected disabled value="">Choose...</option>
-            @foreach (var s in shippers ?? new List<NorthwindTraders.Models.Shipper>())
+            @foreach (var s in shippers ?? new List<Northwind.DTO.ShipperVM>())
             {
                 <option value="@s.ShipperID" @(s.ShipperID == Model.ShipVia ? "selected" : "")>
                     @s.CompanyName
@@ -118,9 +118,9 @@
         <input name="ShipCountry" value="@Model.ShipCountry" class="form-control" placeholder="Ship Country" required />
         <div class="invalid-feedback">Ship Country is required.</div>
     </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button class="btn btn-primary" type="button" onclick="validateAndSaveOrder()">Save Order</button>
-        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" type="button" onclick="validateAndSaveOrder()">Save Order</button>
+    </div>
 
-    </form>
+</form>

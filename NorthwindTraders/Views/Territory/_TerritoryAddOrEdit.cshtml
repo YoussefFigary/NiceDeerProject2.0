@@ -1,6 +1,6 @@
-﻿@model NorthwindTraders.Models.Territory
+﻿@model Northwind.DTO.TerritoryVM
 @{
-    var regions = ViewBag.Regions as List<NorthwindTraders.Models.Region>;
+    var regions = ViewBag.Regions as List<Northwind.DTO.RegionVM>;
 }
 
 <form id="adddoredit-Territory-form" class="row g-3 needs-validation" novalidate>
@@ -8,7 +8,7 @@
 
     <div class="col-md-6">
         <label for="territory-description" class="form-label">Territory Description</label>
-        <input name="TerritoryDescription" placeholder="Territory description" value="@Model.TerritoryDescription" type="text" class="form-control" id="territory-description" required>
+        <input name="TerritoryDescription" placeholder="Territory description" value="@Model.TerritoryDescription" type="text" class="form-control" id="territory-description" required pattern="[A-Za-z]{1,50}" maxlength="50">
         <div class="invalid-feedback">Territory Description is equired</div>
     </div>
 

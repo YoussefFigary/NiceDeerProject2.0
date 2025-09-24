@@ -1,5 +1,5 @@
 ﻿<script>
-    //  Validation function
+    // Validation function
     function validateForm() {
         let input = $("#RegionDescription");
         let errorSpan = $("#RegionDescriptionError");
@@ -20,10 +20,10 @@
         }
     }
 
-    // Create
+    // ✅ Create
     function openCreateModal() {
         $("#regionModalLabel").text("Add Region");
-        $("#RegionID").val("");
+        $("#RegionID").val("0");
         $("#RegionDescription").val("").removeClass("is-invalid");
         $("#RegionDescriptionError").hide().text("");
 
@@ -31,14 +31,19 @@
             e.preventDefault();
             if (!validateForm()) return;
 
-            $.post('@Url.Action("CreateAjax", "Region")', $(this).serialize())
-                .done(function (result) {
+            $.ajax({
+                url: '@Url.Action("CreateAjax", "Region")',
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (result) {
                     $("#regionTableContainer").html(result);
                     $("#regionModal").modal("hide");
-                })
-                .fail(function (xhr) {
-                    Swal.fire("Error", xhr.responseText, "error");
-                });
+                },
+                error: function (xhr) {
+                    let msg = xhr.responseJSON?.message || xhr.responseText || "Error occurred";
+                    Swal.fire("Error", msg, "error");
+                }
+            });
         });
 
         $("#regionModal").modal("show");
@@ -55,39 +60,50 @@
             e.preventDefault();
             if (!validateForm()) return;
 
-            $.post('@Url.Action("EditAjax", "Region")', $(this).serialize())
-                .done(function (result) {
+            $.ajax({
+                url: '@Url.Action("EditAjax", "Region")',
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (result) {
                     $("#regionTableContainer").html(result);
                     $("#regionModal").modal("hide");
-                })
-                .fail(function (xhr) {
-                    Swal.fire("Error", xhr.responseText, "error");
-                });
+                },
+                error: function (xhr) {
+                    let msg = xhr.responseJSON?.message || xhr.responseText || "Error occurred";
+                    Swal.fire("Error", msg, "error");
+                }
+            });
         });
 
         $("#regionModal").modal("show");
     }
 
-    //  Delete (Swal only here)
-    function deleteRegion(id) {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This action cannot be undone",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.post('@Url.Action("DeleteAjax", "Region")', { id: id })
-                    .done(function (result) {
-                        $("#regionTableContainer").html(result);
+    // ✅ Delete
+function deleteRegion(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "This action cannot be undone",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.post('@Url.Action("DeleteAjax", "Region")', { id: id })
+                .done(function (res) {
+                    if (res.success) {
+                        
+                        $("#regionTableContainer").load('@Url.Action("Index", "Region") #regionTableContainer');
                         Swal.fire("Deleted!", "Region has been deleted.", "success");
-                    })
-                    .fail(function (xhr) {
-                        Swal.fire("Error", xhr.responseText, "error");
-                    });
-            }
-        });
-    }
+                    } else {
+                        Swal.fire("Error", res.message, "error");
+                    }
+                })
+                .fail(function (xhr) {
+                    Swal.fire("Error", xhr.responseText, "error");
+                });
+        }
+    });
+}
+
 </script>

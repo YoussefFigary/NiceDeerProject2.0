@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NorthwindTraders.Models.Employee>
+﻿@model IEnumerable<Northwind.DTO.EmployeeVM>
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -28,15 +28,15 @@
             {
                 <tr>
                     <td>@item.EmployeeID</td>
-                    <td>@(item.TitleOfCourtesy+item.FirstName+""+item.LastName) </td>
+                    <td>@(item.TitleOfCourtesy+item.FirstName+" "+item.LastName) </td>
                     <td>@item.Title</td>
                     <td>@item.HomePhone</td>
-                    <td id="MangerFeild">@item.ReportsTo</td>
+                    <td id="MangerFeild">@(item.ReportsToName ?? "He is the Boss")</td>
                     <td>
                         <div class="btn-group">
                             <button type="button" class="btn btn-dark" onclick="employeeDetails(@item.EmployeeID)"> <i class="bi bi-eye-fill"></i></button>
                             <button type="button" class="btn btn-primary" onclick="AddOrEditemployee(@item.EmployeeID)"><i class="bi bi-pencil-fill"></i></button>
-                            <button type="button" class="btn btn-danger" onclick="DeleteEmployeeepopup(@item.EmployeeID)"><i class="bi bi-trash3-fill"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="Deleteemployeepopup(@item.EmployeeID)"><i class="bi bi-trash3-fill"></i></button>
                         </div>
                     </td>
 
@@ -84,7 +84,7 @@
 
 <script>
   
-
+    /*
     function getManger(id) {
         $.ajax({
             url: `/Employees/GetReportsTo?id=${id}`,
@@ -98,6 +98,7 @@
             }
         });
     }
+    */
                     function Deleteemployeepopup(id) {
                         Swal.fire({
                             title: "Are you sure?",
@@ -125,20 +126,39 @@
                             },
                             error: function (jqXHR) {
                                 // jqXHR.status will be 409 or 404
+                               
                                 if (jqXHR.status === 409) {
 
                                     var data = JSON.parse(jqXHR.responseText);
-                                    var list = data.linkedProducts
-                                        .map(function (e) {
-                                            return '<li>' + e.ProductID + "=>" + e.ProductName + '</li>';
-                                        })
-                                        .join('');
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: "Can Not Delete This Employee is Linked to the Products below:",
-                                        html: '<p>' + list + '</p>'
-                                    });
+                                    if (data.linkedorders) {
+                                        var list = data.linkedorders
+                                            .map(function (e) {
+                                                return '<li>' + e.OrderID + "=>" + e.CompanyName + '</li>';
+                                            })
+                                            .join('');
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: "Can Not Delete This Employee is Linked to the Orders below:",
+                                            html: '<p>' + list + '</p>'
+                                        });
+                                    }
+                                    else if (data.linkedemployees) {
+                                        var list = data.linkedemployees
+                                            .map(function (e) {
+                                                return '<li>' + e.EmployeeID + "=>" + e.FullName + '</li>';
+                                            })
+                                            .join('');
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: "Can Not Delete This Employee is Linked to the Employees below:",
+                                            html: '<p>' + list + '</p>'
+                                        });
+
+                                    }
+
                                 }
+                                
+
                                 else if (jqXHR.status === 404) {
                                     var data = JSON.parse(jqXHR.responseText);
                                     Swal.fire('Error', data.error, 'error');
@@ -168,9 +188,10 @@
 
                     }
 
-                    function saveemployee() {
+    function saveemployee() {
+        debugger;
                         var formData = $("#adddoredit-Employee-form").serialize();
-                        formData.
+                       
                         $.ajax({
                             url: '/Employees/SaveEdit',  // POST to save changes
                             type: 'POST',
