@@ -1,0 +1,42 @@
+﻿@model Northwind.DTO.Order_DetailVM
+@{
+    var products = ViewBag.Products as IEnumerable<dynamic>;
+}
+
+<form id="add-orderDetails-form" class="row g-3 needs-validation" novalidate>
+    @* Keep order id hidden *@
+    <input type="hidden" name="OrderID" value="@Model.OrderID" />
+
+    <div class="col-md-6">
+        <label class="form-label">Product</label>
+        <select id="ProductID" name="ProductID" class="form-select" required>
+            <option selected disabled value="">Choose...</option>
+            @if (products != null)
+            {
+                foreach (var p in products)
+                {
+                    <option value="@p.ProductID" @(p.ProductID == Model.ProductID ? "selected" : "")>
+                        @p.ProductName (@p.ProductID)
+                    </option>
+                }
+            }
+        </select>
+        <div class="invalid-feedback">Product is required.</div>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Quantity</label>
+        <input type="number" min="1" step="1" name="Quantity" value="@(Model.Quantity == 0 ? 1 : Model.Quantity)" class="form-control" required />
+        <div class="invalid-feedback">Quantity is required.</div>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">Discount (%)</label>
+        <input type="number" min="0" max="100" step="0.5" name="Discount" value="@Model.Discount" class="form-control" />
+    </div>
+
+    <div class="col-12 d-flex justify-content-end mt-2">
+        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="validateAndSaveDetail()">Save</button>
+    </div>
+</form>

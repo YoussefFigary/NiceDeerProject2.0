@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Northwind.DTO.ShipperVM>
+
+<div class="container">
+    <h2>Shippers</h2>
+
+    <button class="btn btn-success mb-3" onclick="openCreateShipperModal()">
+        <i class="bi bi-plus-lg"></i> Add Shipper
+    </button>
+
+    @Html.Partial("_ShipperTable", Model)
+    @section scripts {@Html.Partial("_ShipperScripts")}
+
+    <!-- Modal  -->
+    <div class="modal fade" id="shipperModal" tabindex="-1" aria-labelledby="shipperModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="shipperForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="shipperModalLabel">Add / Edit Shipper</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="ShipperID" name="ShipperID" value="0" />
+
+                        <div class="mb-3">
+                            <label for="CompanyName" class="form-label">Company Name</label>
+                            <input type="text" id="CompanyName" name="CompanyName" class="form-control" />
+                            <div class="invalid-feedback" id="CompanyNameError"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Phone" class="form-label">Phone</label>
+                            <input type="text" id="Phone" name="Phone" class="form-control" />
+                            <div class="invalid-feedback" id="PhoneError"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" id="saveShipperBtn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+

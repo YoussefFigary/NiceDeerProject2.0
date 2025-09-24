@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark sticky-top">
         <div class="container">
             @Html.ActionLink("North Wind Trading", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -17,9 +17,17 @@
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Territories", "Index", "Territory", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Customers", "Index", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Suppliers", "Index", "Supplier", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Shippers", "Index", "Shipper", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Regions", "Index", "Region", new { area = "" }, new { @class = "nav-link" })</li>
+
+                    <li>@Html.ActionLink("Employees", "Index", "Employees", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Categories", "Index", "Category", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Products", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Employees", "Index", "Employees", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
         </div>
@@ -29,19 +37,7 @@
     <div class="container body-content mt-3">
         <div class="row">
             <!-- Sidebar -->
-            <aside class="col-md-3 mb-3">
-                <div class="bg-light border rounded p-3 h-100">
-                    <h5>Database</h5>
-                    <ul class="list-unstyled">
-                        <li>Category</li>
-                        <li>@Html.ActionLink("Territory", "Territory", "Territory", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Customers", "Index", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Suppliers", "Supplier", "Supplier", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Employees", "Index", "Employees", new { area = "" }, new { @class = "nav-link" })</li>
-
-                    </ul>
-                </div>
-            </aside>
+           
 
             <!-- Main body content -->
             <main class="col-md-9">

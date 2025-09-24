@@ -1,0 +1,133 @@
+﻿<script>
+    (function () {
+  
+        var shipperModalEl = document.getElementById('shipperModal');
+        var shipperModal = null;
+
+        function getModalInstance() {
+            if (!shipperModal) {
+                shipperModal = new bootstrap.Modal(shipperModalEl);
+            }
+            return shipperModal;
+        }
+
+        // validation
+        function validateShipperForm() {
+            var valid = true;
+
+            var $company = $("#CompanyName");
+            var $phone = $("#Phone");
+            var comp = $company.val().trim();
+            var ph = $phone.val().trim();
+
+            if (comp.length < 3) {
+                $company.addClass("is-invalid");
+                $("#CompanyNameError").text("Company name must be at least 3 characters").show();
+                valid = false;
+            } else if (comp.length > 100) {
+                $company.addClass("is-invalid");
+                $("#CompanyNameError").text("Company name must be less than 100 characters").show();
+                valid = false;
+            } else {
+                $company.removeClass("is-invalid");
+                $("#CompanyNameError").hide().text("");
+            }
+
+            if (ph.length < 5) {
+                $phone.addClass("is-invalid");
+                $("#PhoneError").text("Phone must be at least 5 characters").show();
+                valid = false;
+            } else {
+                $phone.removeClass("is-invalid");
+                $("#PhoneError").hide().text("");
+            }
+
+            return valid;
+        }
+
+        // open create
+        window.openCreateShipperModal = function () {
+            $("#shipperModalLabel").text("Add Shipper");
+            $("#ShipperID").val("0");
+            $("#CompanyName, #Phone").val("").removeClass("is-invalid");
+            $("#CompanyNameError, #PhoneError").hide().text("");
+
+            bindShipperForm(); // attach submit handler
+            getModalInstance().show();
+        };
+
+        // open edit
+        window.openEditShipperModal = function (id, companyName, phone) {
+            $("#shipperModalLabel").text("Edit Shipper");
+            $("#ShipperID").val(id);
+            $("#CompanyName").val(companyName).removeClass("is-invalid");
+            $("#Phone").val(phone).removeClass("is-invalid");
+            $("#CompanyNameError, #PhoneError").hide().text("");
+
+            bindShipperForm(); // attach submit handler
+            getModalInstance().show();
+        };
+
+        // bind submit
+        function bindShipperForm() {
+            $("#shipperForm").off("submit").on("submit", function (e) {
+                e.preventDefault();
+
+                if (!validateShipperForm()) return;
+
+                $.ajax({
+                    url: '@Url.Action("SaveEdit", "Shipper")',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (res) {
+                        if (res && res.success) {
+                            $("#shipperTableContainer").load('@Url.Action("Index", "Shipper") #shipperTableContainer');
+                            getModalInstance().hide();
+                        } else {
+                            var msg = (res && res.errors) ? res.errors.join(", ") : (res && res.message) ? res.message : "Failed to save";
+                            alert(msg); 
+                        }
+                    },
+                    error: function (xhr) {
+                        var txt = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.responseText;
+                        alert(txt || "An error occurred"); 
+                    }
+                });
+            });
+        }
+
+        // delete 
+        window.deleteShipper = function (id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post('@Url.Action("Delete", "Shipper")', { id: id })
+                        .done(function (res) {
+                            if (res && res.success) {
+                                $("#shipperTableContainer").load('@Url.Action("Index", "Shipper") #shipperTableContainer');
+                                Swal.fire("Deleted!", "Shipper has been deleted.", "success");
+                            } else {
+                                Swal.fire("Error", res.message || "Delete failed", "error");
+                            }
+                        })
+                        .fail(function (xhr) {
+                            Swal.fire("Error", xhr.responseText || "Error deleting", "error");
+                        });
+                }
+            });
+        };
+
+        // remove invalid on typing
+        $(document).on('input', '#CompanyName, #Phone', function () {
+            $(this).removeClass('is-invalid');
+            $(this).siblings('.invalid-feedback').hide().text('');
+        });
+
+    })();
+</script>

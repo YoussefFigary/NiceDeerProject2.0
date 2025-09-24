@@ -1,4 +1,6 @@
-﻿using NorthwindTraders.Models;
+﻿using Northwind.Business;
+using NorthwindTraders.Models;
+using Northwind.DTO;
 using NorthwindTraders.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -13,59 +15,50 @@ namespace NorthwindTraders.Controllers
 
     public class TerritoryController : Controller
     {
-        
-        private NorthwindEntities db = new NorthwindEntities();
+
+        TerritoryBusiness TerritoryBusiness = new TerritoryBusiness();
 
 
         public ActionResult AddOREditPopup(int id)
         {
-            ViewBag.Regions = db.Regions.ToList();
+            ViewBag.Regions = (List<RegionVM>) TerritoryBusiness.GetRegions().JsonData;
             if (id == 0)
-                return PartialView("_TerritoryAddOrEdit", new Territory()); // Empty model for Add
+                return PartialView("_TerritoryAddOrEdit", new TerritoryVM()); // Empty model for Add
             else
             {
-                var territory = db.Territories.Find(id);
+                var territory = (TerritoryVM)TerritoryBusiness.GetTerritory(id).JsonData;
                 return PartialView("_TerritoryAddOrEdit", territory); // Filled model for Edit
             }
         }
 
+
         [HttpPost]
-        public JsonResult AddOREdit(Territory model)
+        public ActionResult SaveEdit(TerritoryVM territory)
         {
-            if (model.TerritoryID == 0)
+            if (!ModelState.IsValid)
             {
-                db.Territories.Add(model);
+                return Json(new { success = false, errors = new[] { "Invalid model state" } });
             }
-            else
-            {
-                db.Entry(model).State = EntityState.Modified;
-            }
-            db.SaveChanges();
-            return Json(new { success = true });
+
+            var response = TerritoryBusiness.AddEditTerritory(territory);
+
+            return Json(new { success = response.Success });
         }
 
 
 
         // to display the main Territory Table
         [HttpGet]
-        public ActionResult Territory()
+        public ActionResult Index()
         {
-            var territories = db.Territories.Where(t => t != null).OrderBy(x => x.TerritoryID).ToList();
+            var territories = (List<TerritoryVM>) TerritoryBusiness.GetTerritories().JsonData;
             return View(territories); 
         }
 
         // to check if i can delete Territory
         public List<EmployeeInfo> CheckEmployees(int id)
         {
-            var employees = db.Territories
-                              .Where(t => t.TerritoryID == id)
-                              .SelectMany(t => t.Employees)
-                              .Select(e => new EmployeeInfo
-                              {
-                                  EmployeeID = e.EmployeeID,
-                                  FullName = e.FirstName + " " + e.LastName
-                              })
-                              .ToList();
+            var employees = (List<EmployeeInfo>)TerritoryBusiness.CheckEmployees(id).JsonData;
 
             return employees;
         }
@@ -84,73 +77,29 @@ namespace NorthwindTraders.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            var record = db.Territories.Find(id);
+            var record = (TerritoryVM)TerritoryBusiness.GetTerritory(id).JsonData;
             if (record == null)
             {
                 Response.StatusCode = 404;
                 return Json(new { error = "Territory not found." }, JsonRequestBehavior.AllowGet);
             }
 
-            db.Territories.Remove(record);
-            db.SaveChanges();
+            TerritoryBusiness.RemoveTerritory(record);
 
             return Json(new { success = true });
         }
 
 
-
-
-
-
-
-        /*
-            if (id <= 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            var territory = db.Territories.Find(id);
-            if (territory == null)
-            {
-                return HttpNotFound();
-            }
-
-            db.Territories.Remove(territory);
-            db.SaveChanges();
-            // will change to a confermation pop up 
-            return RedirectToAction("Index");
-        }
-        */
-
         [HttpGet]
         public JsonResult GetRegions()
         {
-            var regions = db.Regions
-                .Select(r => new { r.RegionID, r.RegionDescription })
-                .ToList();
+            var regions = (List<string>)TerritoryBusiness.GetRegions().JsonData;
 
             return Json(regions, JsonRequestBehavior.AllowGet);
         }
 
 
-        [HttpPost]
-        // edits the Territory field 
-        public ActionResult Edit(Territory updated)
-        {
-            if (updated == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var territory = db.Territories.Find(updated.TerritoryID);
-            if (territory == null)
-                return HttpNotFound();
-
-            territory.TerritoryDescription = updated.TerritoryDescription;
-            territory.RegionID = updated.RegionID;
-
-            db.SaveChanges();
-
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
+        
     }
 
 }

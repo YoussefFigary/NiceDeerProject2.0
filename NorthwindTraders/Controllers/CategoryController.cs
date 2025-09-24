@@ -1,144 +1,90 @@
-﻿using System;
-using System.Linq;
+﻿using Northwind.Business;
+using Northwind.DTO;
+using NorthwindTraders.Models.DTOs;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using NorthwindTraders.Models;
 
 namespace NorthwindTraders.Controllers
 {
     public class CategoryController : Controller
     {
-        private NorthwindEntities _context;
+        private readonly CategoryBusiness _categoryBusiness = new CategoryBusiness();
 
-        public CategoryController()
-        {
-            _context = new NorthwindEntities();
-        }
-
-        // =============== Main Page =============== //
+        
+        [HttpGet]
         public ActionResult Index()
         {
-            var categories = _context.Categories.ToList();
+            var categories = (List<CategoryVM>)_categoryBusiness.GetCategories().JsonData;
             return View(categories);
         }
 
-        // Partial view of the category table
-        public PartialViewResult CategoryTable_()
-        {
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
-        }
-
-        // =============== AJAX Actions =============== //
-
-        // Create category with AJAX
+        
         [HttpPost]
-        public ActionResult CreateAjax(Category category)
+        public ActionResult CreateAjax(CategoryVM category)
         {
-            try
+            if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
-                if (ModelState.IsValid)
-                {
-                    _context.Categories.Add(category);
-                    _context.SaveChanges();
-                }
+                return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
-            catch (Exception e)
-            {
-                return Json(new { success = false, message = e.Message });
-            }
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
 
+            if (string.IsNullOrWhiteSpace(category.Description))
+            {
+                return new HttpStatusCodeResult(400, "Description is required.");
+            }
+
+            var response = _categoryBusiness.AddEditCategory(category);
+            if (!response.Success)
+            {
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = response.Message });
+            }
+
+            var categories = (List<CategoryVM>)_categoryBusiness.GetCategories().JsonData;
+            return PartialView("_CategoryTable", categories);
         }
 
-        // Edit category with AJAX
+        // ✅ تعديل كاتيجوري (Ajax)
         [HttpPost]
-        public ActionResult EditAjax(Category category)
+        public ActionResult EditAjax(CategoryVM category)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(category.CategoryName) || category.CategoryName.Length < 3)
             {
-                var existing = _context.Categories.Find(category.CategoryID);
-                if (existing != null)
-                {
-                    existing.CategoryName = category.CategoryName;
-                    existing.Description = category.Description;
-                    _context.SaveChanges();
-                }
+                return new HttpStatusCodeResult(400, "Category name must be at least 3 characters.");
             }
 
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
+            if (string.IsNullOrWhiteSpace(category.Description))
+            {
+                return new HttpStatusCodeResult(400, "Description is required.");
+            }
+
+            var response = _categoryBusiness.AddEditCategory(category);
+            if (!response.Success)
+            {
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = response.Message });
+            }
+
+            var categories = (List<CategoryVM>)_categoryBusiness.GetCategories().JsonData;
+            return PartialView("_CategoryTable", categories);
         }
 
-        // Delete category with AJAX
+        // ✅ حذف كاتيجوري (Ajax)
         [HttpPost]
         public ActionResult DeleteAjax(int id)
         {
-            var category = _context.Categories.Find(id);
-            if (category != null)
+            var category = (CategoryVM)_categoryBusiness.GetCategory(id).JsonData;
+            if (category == null)
             {
-                _context.Categories.Remove(category);
-                _context.SaveChanges();
+                return Json(new { success = false, message = "Category not found." });
             }
 
-            var categories = _context.Categories.ToList();
-            return PartialView("CategoryTable_", categories);
-        }
-
-        // =============== Normal Actions (Non-AJAX) =============== //
-
-        // Create page
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(Category category)
-        {
-            if (ModelState.IsValid)
+            var response = _categoryBusiness.RemoveCategory(category);
+            if (!response.Success)
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { success = false, message = response.Message });
             }
-            return View(category);
-        }
 
-        // Edit page
-        public ActionResult Edit(int id)
-        {
-            var category = _context.Categories.Find(id);
-            return View(category);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                var existing = _context.Categories.Find(category.CategoryID);
-                if (existing != null)
-                {
-                    existing.CategoryName = category.CategoryName;
-                    existing.Description = category.Description;
-                    _context.SaveChanges();
-                }
-                return RedirectToAction("Index");
-            }
-            return View(category);
-        }
-
-        // Normal delete
-        public ActionResult Delete(int id)
-        {
-            var category = _context.Categories.Find(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
     }
 }
